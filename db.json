@@ -1,0 +1,29 @@
+{
+  "items": [
+    {
+      "id": "1",
+      "nom": "Burger Végétarien",
+      "description": "Steak de soja, salade, tomates",
+      "prix": 6.5,
+      "allergenes": ["soja", "gluten"],
+      "categorie": "vegetarien",
+      "disponible": true
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "email": "test@test.com",
+      "password": "password123",
+      "nom": "Test",
+      "prenom": "User",
+      "favoris": ["1", "2"]
+    }
+  ],
+  "favoris": [
+    {
+      "userId": "1",
+      "itemId": "1"
+    }
+  ]
+}
