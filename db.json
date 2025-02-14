@@ -46,7 +46,7 @@
       "categorie": "Végétarien",
       "disponible": true,
       "restaurantId": "1",
-      "image": "burger_vegetarien.jpg"
+      "image": "https://lacuisineensemble.fr/wp-content/uploads/2022/02/recette-burger-maison.jpg"
     },
     {
       "id": "2",
@@ -60,7 +60,7 @@
       "categorie": "Salade",
       "disponible": true,
       "restaurantId": "1",
-      "image": "salade_cesar.jpg"
+      "image": "https://www.galbani.fr/wp-content/uploads/2020/04/AdobeStock_157570276-2.jpeg"
     },
     {
       "id": "3",
@@ -73,7 +73,7 @@
       "categorie": "Pâtes",
       "disponible": true,
       "restaurantId": "1",
-      "image": "pates_primavera.jpg"
+      "image": "https://img.hellofresh.com/f_auto,fl_lossy,q_auto,w_1200/hellofresh_s3/image/HF_Y24_R1018_W32_CA_RV158821-1_Main_low-c3887eef.jpg"
     },
     {
       "id": "4",
@@ -86,7 +86,7 @@
       "categorie": "Fast-food",
       "disponible": true,
       "restaurantId": "2",
-      "image": "hotdog_classique.jpg"
+      "image": "https://www.casselin.com/blog/wp-content/uploads/2023/11/Les-differences-entre-les-hot-dogs-americains-et-europeens.jpg"
     },
     {
       "id": "5",
@@ -97,7 +97,7 @@
       "categorie": "Accompagnement",
       "disponible": true,
       "restaurantId": "2",
-      "image": "frites_maison.jpg"
+      "image": "https://www.lespommesdeterre.com/wp-content/uploads/2017/10/frites-maison-c-shutterstock_bd.jpg"
     },
     {
       "id": "6",
@@ -110,7 +110,7 @@
       "categorie": "Dessert",
       "disponible": true,
       "restaurantId": "3",
-      "image": "creme_brulee.jpg"
+      "image": "https://www.markal.fr/application/files/medias_markal/recettes/988-recette-creme-brulee.jpg"
     },
     {
       "id": "7",
@@ -124,7 +124,7 @@
       "categorie": "Dessert",
       "disponible": true,
       "restaurantId": "3",
-      "image": "macarons_assortis.jpg"
+      "image": "https://www.lenelson-patisserie.com/607-large_default/coffret-de-macarons-assortis.jpg"
     },
     {
       "id": "8",
@@ -137,7 +137,7 @@
       "categorie": "Dessert",
       "disponible": true,
       "restaurantId": "3",
-      "image": "tarte_aux_fruits.jpg"
+      "image": "https://kissmychef.com/wp-content/uploads/2021/09/tarte-1.png"
     }
   ],
   "users": [

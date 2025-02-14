@@ -83,6 +83,11 @@ export const api = {
         return response.data
     },
 
+    getPlatsById: async (platId) => {
+        const response = await axios.get(`${BASE_URL}/plats/${platId}`);
+        return response.data;
+    },
+
     getCommandesByUser: async (userId) => {
         const response = await axios.get(`${BASE_URL}/commandes?userId=${userId}`)
         return response.data
