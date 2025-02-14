@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { api } from '../../services/api';
+import Button from '../../components/button';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const DetailsScreen: React.FC = () => {
     const { id } = useLocalSearchParams();
@@ -19,6 +21,18 @@ const DetailsScreen: React.FC = () => {
         fetchProduct();
     }, [id]);
 
+    const addToCart = async () => {
+        try {
+            const existingCart = await AsyncStorage.getItem('userCart');
+            const cart = existingCart ? JSON.parse(existingCart) : [];
+            cart.push(product);
+            await AsyncStorage.setItem('userCart', JSON.stringify(cart));
+            console.log('Panier mis à jour:', cart);
+        } catch (error) {
+            console.error("Erreur lors de l'ajout au panier:", error);
+        }
+    };
+
     if (!product) {
         return <Text style={styles.loading}>Chargement...</Text>;
     }
@@ -33,6 +47,7 @@ const DetailsScreen: React.FC = () => {
             {product.allergenes.length > 0 && (
                 <Text style={styles.allergenes}>Allergènes: {product.allergenes.join(', ')}</Text>
             )}
+            <Button title="Ajouter au panier" onPress={addToCart} transparent={true} />
         </ScrollView>
     );
 };

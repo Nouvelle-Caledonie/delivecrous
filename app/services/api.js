@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const BASE_URL = "https://8f97-78-244-3-222.ngrok-free.app"
+const BASE_URL = "http://localhost:3000"
 
 export const api = {
     login: async (email, password) => {

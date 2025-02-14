@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface ItemCardProps {
     product: {
@@ -23,19 +24,36 @@ const ItemCard: React.FC<ItemCardProps> = ({ product }) => {
         router.push(`/screens/details/${product.id}`);
     };
 
+    const addToCart = async () => {
+        try {
+            const existingCart = await AsyncStorage.getItem('userCart');
+            const cart = existingCart ? JSON.parse(existingCart) : [];
+            cart.push(product);
+            await AsyncStorage.setItem('userCart', JSON.stringify(cart));
+            console.log('Panier mis à jour:', cart);
+        } catch (error) {
+            console.error("Erreur lors de l'ajout au panier:", error);
+        }
+    };
+
     return (
-        <TouchableOpacity style={styles.card} onPress={handlePress}>
-            <Image source={{ uri: product.image }} style={styles.image} />
-            <View style={styles.infoContainer}>
-                <Text style={styles.name}>{product.nom}</Text>
-                <Text style={styles.category}>{product.categorie}</Text>
-                <Text style={styles.description}>{product.description}</Text>
-                <Text style={styles.price}>{product.prix} €</Text>
-                {product.allergenes.length > 0 && (
-                    <Text style={styles.allergenes}>Allergènes: {product.allergenes.join(', ')}</Text>
-                )}
-            </View>
-        </TouchableOpacity>
+        <View style={styles.card}>
+            <TouchableOpacity onPress={handlePress}>
+                <Image source={{ uri: product.image }} style={styles.image} />
+                <View style={styles.infoContainer}>
+                    <Text style={styles.name}>{product.nom}</Text>
+                    <Text style={styles.category}>{product.categorie}</Text>
+                    <Text style={styles.description}>{product.description}</Text>
+                    <Text style={styles.price}>{product.prix} €</Text>
+                    {product.allergenes.length > 0 && (
+                        <Text style={styles.allergenes}>Allergènes: {product.allergenes.join(', ')}</Text>
+                    )}
+                </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.addButton} onPress={addToCart}>
+                <Text style={styles.addButtonText}>Ajouter au panier</Text>
+            </TouchableOpacity>
+        </View>
     );
 };
 
@@ -50,17 +68,18 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         shadowRadius: 4,
         elevation: 5,
-        flexDirection: 'row',
+        flexDirection: 'column',
         alignItems: 'center',
     },
     image: {
-        width: 80,
-        height: 80,
+        width: 100,
+        height: 100,
         borderRadius: 10,
     },
     infoContainer: {
         flex: 1,
-        marginLeft: 15,
+        alignItems: 'center',
+        marginTop: 10,
     },
     name: {
         fontSize: 18,
@@ -84,6 +103,16 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: '#c00',
         marginTop: 5,
+    },
+    addButton: {
+        marginTop: 10,
+        backgroundColor: '#007AFF',
+        padding: 10,
+        borderRadius: 5,
+    },
+    addButtonText: {
+        color: '#fff',
+        fontWeight: 'bold',
     },
 });
 
