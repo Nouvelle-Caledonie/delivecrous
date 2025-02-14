@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { View, Text, Button, StyleSheet } from "react-native"
+import { View, Text, StyleSheet } from "react-native"
 import { useRouter } from "expo-router"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
@@ -7,6 +7,7 @@ export default function Index() {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
     const router = useRouter()
 
+    // Au montage du composant, on vérifie si un token existe
     useEffect(() => {
         const checkToken = async () => {
             const token = await AsyncStorage.getItem("userToken")
@@ -15,29 +16,22 @@ export default function Index() {
         checkToken()
     }, [])
 
+    // Dès qu'on a l'information sur l'authentification
+    // Si isAuthenticated est vrai, on redirige vers /screens/home
+    // Sinon, on redirige vers /screens/login
     useEffect(() => {
-        if (isAuthenticated === false) {
-            router.replace("./screens/login")
+        if (isAuthenticated === null) return // On attend d'avoir le token
+        if (isAuthenticated) {
+            router.replace("/screens/home")
+        } else {
+            router.replace("/screens/login")
         }
     }, [isAuthenticated])
 
-    const handleLogout = async () => {
-        await AsyncStorage.removeItem("userToken")
-        setIsAuthenticated(false)
-    }
-
-    if (isAuthenticated === null) {
-        return (
-            <View style={styles.loadingContainer}>
-                <Text>Chargement...</Text>
-            </View>
-        )
-    }
-
+    // En attendant la vérification du token, on peut afficher un écran de chargement
     return (
-        <View style={styles.container}>
-            <Text style={styles.welcomeText}>Vous êtes connecté !</Text>
-            <Button title="Se déconnecter" onPress={handleLogout} />
+        <View style={styles.loadingContainer}>
+            <Text>Chargement...</Text>
         </View>
     )
 }
@@ -47,14 +41,5 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center"
-    },
-    container: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    welcomeText: {
-        fontSize: 18,
-        marginBottom: 10
     }
 })
