@@ -1,44 +1,28 @@
 import React, { useState } from 'react'
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal, Pressable } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-
-const user = {
-    id: '1',
-    email: 'etudiant@univ.fr',
-    nom: 'Dupont',
-    prenom: 'Jean',
-    favoris: ['1', '2']
-}
-
-const api = {
-    login: async (email, password) => {
-        if (email === 'etudiant@univ.fr' && password === '1234') {
-            return { token: 'mock-token', user }
-        } else {
-            throw new Error('Identifiants invalides')
-        }
-    },
-    register: async (email, password) => {
-        if (email && password) {
-            return { token: 'new-user-token', user: { ...user, email } }
-        } else {
-            throw new Error('Champs manquants')
-        }
-    }
-}
+import { api } from '../services/api' // <-- Assurez-vous que ce chemin correspond bien à l'emplacement de votre nouveau fichier "api.js" ou "api.ts"
 
 export default function AuthScreen() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [isRegister, setIsRegister] = useState(false)
 
+    const [modalVisible, setModalVisible] = useState(false)
+    const [modalMessage, setModalMessage] = useState('')
+    const [modalColor, setModalColor] = useState('#333')
+
     const handleLogin = async () => {
         try {
             const response = await api.login(email, password)
             await AsyncStorage.setItem('userToken', response.token)
-            Alert.alert('Connecté', 'Connexion réussie')
-        } catch (error) {
-            Alert.alert('Erreur', 'Identifiants invalides')
+            setModalMessage('Connexion réussie')
+            setModalColor('#4BB543')
+            setModalVisible(true)
+        } catch (err) {
+            setModalMessage(err.message || 'Identifiants invalides')
+            setModalColor('#B23A48')
+            setModalVisible(true)
         }
     }
 
@@ -46,17 +30,24 @@ export default function AuthScreen() {
         try {
             const response = await api.register(email, password)
             await AsyncStorage.setItem('userToken', response.token)
-            Alert.alert('Inscription', 'Compte créé')
+            setModalMessage('Compte créé avec succès')
+            setModalColor('#4BB543')
+            setModalVisible(true)
             setIsRegister(false)
-        } catch (error) {
-            Alert.alert('Erreur', 'Veuillez remplir tous les champs')
+            await handleLogin()
+        } catch (err) {
+            setModalMessage(err.message || 'Erreur lors de la création du compte')
+            setModalColor('#B23A48')
+            setModalVisible(true)
         }
     }
 
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Delivercrous</Text>
-            <Text style={styles.subtitle}>{isRegister ? 'Créer un compte' : 'Se connecter'}</Text>
+            <Text style={styles.subtitle}>
+                {isRegister ? 'Créer un compte' : 'Se connecter'}
+            </Text>
             <TextInput
                 style={styles.input}
                 placeholder="Email"
@@ -77,7 +68,7 @@ export default function AuthScreen() {
                 onPress={isRegister ? handleRegister : handleLogin}
             >
                 <Text style={styles.buttonText}>
-                    {isRegister ? 'S\'inscrire' : 'Se connecter'}
+                    {isRegister ? "S'inscrire" : 'Se connecter'}
                 </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -88,6 +79,17 @@ export default function AuthScreen() {
                     {isRegister ? 'Déjà un compte ? Se connecter' : 'Nouveau ? Créer un compte'}
                 </Text>
             </TouchableOpacity>
+
+            <Modal visible={modalVisible} animationType="fade" transparent>
+                <View style={styles.modalBackground}>
+                    <View style={styles.modalContainer}>
+                        <Text style={[styles.modalText, { color: modalColor }]}>{modalMessage}</Text>
+                        <Pressable style={styles.closeButton} onPress={() => setModalVisible(false)}>
+                            <Text style={styles.closeButtonText}>Fermer</Text>
+                        </Pressable>
+                    </View>
+                </View>
+            </Modal>
         </View>
     )
 }
@@ -140,5 +142,33 @@ const styles = StyleSheet.create({
     switchText: {
         color: '#333',
         fontSize: 14
+    },
+    modalBackground: {
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.3)',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    modalContainer: {
+        width: '80%',
+        backgroundColor: '#FFF',
+        borderRadius: 12,
+        paddingVertical: 20,
+        paddingHorizontal: 15,
+        alignItems: 'center'
+    },
+    modalText: {
+        fontSize: 18,
+        marginBottom: 20
+    },
+    closeButton: {
+        backgroundColor: '#B23A48',
+        borderRadius: 8,
+        paddingHorizontal: 15,
+        paddingVertical: 10
+    },
+    closeButtonText: {
+        color: '#FFF',
+        fontSize: 16
     }
 })
