@@ -1,14 +1,15 @@
 //Mettre parametre --------- title --------- (title du button) et --------- onPress --------- (pour choisir quand faire quand cliqué)
-
+//                 --------- transparent --------- (true si button beige / false si rouge)
 import { Pressable, Text, View, StyleSheet, Animated } from "react-native";
 import { useState, useRef } from "react";
 
 interface ButtonProps {
     title: string;
     onPress?: (pressed: boolean) => void;
+    transparent: boolean;
 }
 
-export default function Button({ title, onPress }: ButtonProps) {
+export default function Button({ title, onPress, transparent }: ButtonProps) {
     const [isPressed, setIsPressed] = useState(false);
     const scaleAnim = useRef(new Animated.Value(1)).current; // Animation de scale
 
@@ -41,14 +42,16 @@ export default function Button({ title, onPress }: ButtonProps) {
             <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
                 <Pressable
                     style={({ pressed }) => [
-                        styles.button,
-                        { backgroundColor: pressed ? "#9e1d4e" : "#cd2a65" }
+                        transparent ? { backgroundColor: pressed ? "#fbf2c4" : "#fff9d9", shadowColor: "#25251a",
+                        } :{ backgroundColor: pressed ? "#9e1d4e" : "#cd2a65", shadowColor: "#500e27" },
+                            styles.button,
+
                     ]}
                     onPress={handlePress}
                     onPressIn={animatePressIn}
                     onPressOut={animatePressOut}
                 >
-                    <Text style={styles.text}>{title}</Text>
+                    <Text style={[styles.text, transparent ? { color: "#777777"} :{ color: "#ffffff" }]}>{title}</Text>
                 </Pressable>
             </Animated.View>
         </View>
@@ -65,7 +68,6 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         paddingHorizontal: 24,
         borderRadius: 30,
-        shadowColor: "#b2658c",
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
         shadowRadius: 5,
