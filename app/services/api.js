@@ -1,4 +1,3 @@
-// services/api.ts
 import axios from "axios"
 
 const BASE_URL = "https://8f97-78-244-3-222.ngrok-free.app"
@@ -72,6 +71,12 @@ export const api = {
         const response = await axios.get(`${BASE_URL}/plats?restaurantId=${restaurantId}`)
         return response.data
     },
+
+    getPlatsById: async (platId) => {
+        const response = await axios.get(`${BASE_URL}/plats/${platId}`);
+        return response.data;
+    },
+
     getCommandesByUser: async (userId) => {
         const response = await axios.get(`${BASE_URL}/commandes?userId=${userId}`)
         return response.data
