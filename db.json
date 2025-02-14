@@ -5,21 +5,32 @@
       "nom": "Le Gourmet",
       "adresse": "123 Rue de Paris, 75001 Paris",
       "telephone": "0123456789",
-      "plats": ["1", "2", "3"]
+      "plats": [
+        "1",
+        "2",
+        "3"
+      ]
     },
     {
       "id": "2",
       "nom": "Fast & Fresh",
       "adresse": "45 Avenue de la République, 75011 Paris",
       "telephone": "0987654321",
-      "plats": ["4", "5"]
+      "plats": [
+        "4",
+        "5"
+      ]
     },
     {
       "id": "3",
       "nom": "Douceurs Sucrées",
       "adresse": "78 Boulevard Saint-Germain, 75005 Paris",
       "telephone": "0147258369",
-      "plats": ["6", "7", "8"]
+      "plats": [
+        "6",
+        "7",
+        "8"
+      ]
     }
   ],
   "plats": [
@@ -28,7 +39,10 @@
       "nom": "Burger Végétarien",
       "description": "Steak de soja, salade, tomates, pain brioché.",
       "prix": 8.5,
-      "allergenes": ["soja", "gluten"],
+      "allergenes": [
+        "soja",
+        "gluten"
+      ],
       "categorie": "Végétarien",
       "disponible": true,
       "restaurantId": "1",
@@ -38,8 +52,11 @@
       "id": "2",
       "nom": "Salade César",
       "description": "Laitue, poulet grillé, parmesan, croûtons et sauce César.",
-      "prix": 9.0,
-      "allergenes": ["lactose", "gluten"],
+      "prix": 9,
+      "allergenes": [
+        "lactose",
+        "gluten"
+      ],
       "categorie": "Salade",
       "disponible": true,
       "restaurantId": "1",
@@ -49,8 +66,10 @@
       "id": "3",
       "nom": "Pâtes Primavera",
       "description": "Pâtes fraîches aux légumes du soleil et sauce tomate.",
-      "prix": 10.0,
-      "allergenes": ["gluten"],
+      "prix": 10,
+      "allergenes": [
+        "gluten"
+      ],
       "categorie": "Pâtes",
       "disponible": true,
       "restaurantId": "1",
@@ -61,7 +80,9 @@
       "nom": "Hot-dog classique",
       "description": "Saucisse grillée dans un pain moelleux avec moutarde et ketchup.",
       "prix": 5.5,
-      "allergenes": ["gluten"],
+      "allergenes": [
+        "gluten"
+      ],
       "categorie": "Fast-food",
       "disponible": true,
       "restaurantId": "2",
@@ -83,7 +104,9 @@
       "nom": "Crème brûlée",
       "description": "Dessert traditionnel à la vanille avec une fine couche de caramel.",
       "prix": 4.5,
-      "allergenes": ["lactose"],
+      "allergenes": [
+        "lactose"
+      ],
       "categorie": "Dessert",
       "disponible": true,
       "restaurantId": "3",
@@ -93,8 +116,11 @@
       "id": "7",
       "nom": "Macarons assortis",
       "description": "Assortiment de macarons aux saveurs variées.",
-      "prix": 6.0,
-      "allergenes": ["amandes", "lactose"],
+      "prix": 6,
+      "allergenes": [
+        "amandes",
+        "lactose"
+      ],
       "categorie": "Dessert",
       "disponible": true,
       "restaurantId": "3",
@@ -104,8 +130,10 @@
       "id": "8",
       "nom": "Tarte aux fruits",
       "description": "Tarte légère garnie de fruits frais de saison.",
-      "prix": 5.0,
-      "allergenes": ["gluten"],
+      "prix": 5,
+      "allergenes": [
+        "gluten"
+      ],
       "categorie": "Dessert",
       "disponible": true,
       "restaurantId": "3",
@@ -119,7 +147,11 @@
       "password": "password123",
       "nom": "Dupont",
       "prenom": "Jean",
-      "favoris": ["1", "4", "6"]
+      "favoris": [
+        "1",
+        "4",
+        "6"
+      ]
     },
     {
       "id": "2",
@@ -127,7 +159,10 @@
       "password": "pass456",
       "nom": "Martin",
       "prenom": "Lucie",
-      "favoris": ["2", "3"]
+      "favoris": [
+        "2",
+        "3"
+      ]
     },
     {
       "id": "3",
@@ -136,22 +171,72 @@
       "nom": "Leclerc",
       "prenom": "Alex",
       "favoris": []
+    },
+    {
+      "id": "498c",
+      "email": "rfer",
+      "password": "frf",
+      "nom": "",
+      "prenom": "",
+      "favoris": []
+    },
+    {
+      "id": "1e78",
+      "email": "noe",
+      "password": "ede",
+      "nom": "",
+      "prenom": "",
+      "favoris": []
+    },
+    {
+      "id": "0461",
+      "email": "dcec",
+      "password": "dc",
+      "nom": "",
+      "prenom": "",
+      "favoris": []
     }
   ],
   "favoris": [
-    { "id": "1", "userId": "1", "platId": "1" },
-    { "id": "2", "userId": "1", "platId": "4" },
-    { "id": "3", "userId": "1", "platId": "6" },
-    { "id": "4", "userId": "2", "platId": "2" },
-    { "id": "5", "userId": "2", "platId": "3" }
+    {
+      "id": "1",
+      "userId": "1",
+      "platId": "1"
+    },
+    {
+      "id": "2",
+      "userId": "1",
+      "platId": "4"
+    },
+    {
+      "id": "3",
+      "userId": "1",
+      "platId": "6"
+    },
+    {
+      "id": "4",
+      "userId": "2",
+      "platId": "2"
+    },
+    {
+      "id": "5",
+      "userId": "2",
+      "platId": "3"
+    }
   ],
   "commandes": [
     {
       "id": "1",
       "userId": "1",
       "plats": [
-        { "platId": "1", "quantite": 2 },
-        { "platId": "5", "quantite": 1 }
+        {
+          "platId": "1",
+          "quantite": 2
+        },
+        {
+          "platId": "5",
+          "quantite": 1
+        }
       ],
       "total": 20.5,
       "date": "2025-02-13T12:00:00Z",
@@ -161,10 +246,16 @@
       "id": "2",
       "userId": "2",
       "plats": [
-        { "platId": "2", "quantite": 1 },
-        { "platId": "7", "quantite": 2 }
+        {
+          "platId": "2",
+          "quantite": 1
+        },
+        {
+          "platId": "7",
+          "quantite": 2
+        }
       ],
-      "total": 21.0,
+      "total": 21,
       "date": "2025-02-12T15:30:00Z",
       "statut": "livrée"
     }
