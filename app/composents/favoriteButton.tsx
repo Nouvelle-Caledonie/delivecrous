@@ -1,4 +1,4 @@
-//Mettre parametre --------- title --------- (title du button) et --------- onPress --------- (pour choisir quand faire quand cliqué)
+//Mettre parametre --------- onPress --------- (pour choisir quand faire quand cliqué)
 
 import { Pressable, Text, View, StyleSheet, Animated } from "react-native";
 import React, { useState, useRef } from "react";
