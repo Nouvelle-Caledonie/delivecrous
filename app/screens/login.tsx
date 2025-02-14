@@ -1,11 +1,11 @@
-// AuthScreen.tsx
-import React, { useState, useEffect } from "react"
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal, Pressable, Platform } from "react-native"
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import * as AppleAuthentication from "expo-apple-authentication"
-import * as LocalAuthentication from "expo-local-authentication"
-import { useRouter } from "expo-router"
-import { api } from "../services/api"
+import React, { useState, useEffect } from 'react'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal, Pressable, Platform } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import * as AppleAuthentication from 'expo-apple-authentication'
+import * as LocalAuthentication from 'expo-local-authentication'
+import { useRouter } from 'expo-router'
+import { api } from '../services/api'
+import Button from "@/app/components/button"
 
 export default function AuthScreen() {
     const [email, setEmail] = useState("")
@@ -46,15 +46,27 @@ export default function AuthScreen() {
         }
     }
 
+    const isEmail = () => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email)
+    }
+
     const handleRegister = async () => {
         try {
-            const response = await api.register(email, password)
-            await AsyncStorage.setItem("userToken", response.token)
-            setModalMessage("Compte créé avec succès")
-            setModalColor("#4BB543")
-            setModalVisible(true)
-            setIsRegister(false)
-            await handleLogin()
+            if (isEmail()) {
+                console.log("email",email)
+                const response = await api.register(email, password)
+                await AsyncStorage.setItem("userToken", response.token)
+                setModalMessage("Compte créé avec succès")
+                setModalColor("#4BB543")
+                setModalVisible(true)
+                setIsRegister(false)
+                await handleLogin()
+            } else {
+                setModalMessage('Entrez un email valide')
+                setModalColor('#B23A48')
+                setModalVisible(true)
+            }
         } catch (err: any) {
             setModalMessage(err.message || "Erreur lors de la création du compte")
             setModalColor("#B23A48")
@@ -97,7 +109,7 @@ export default function AuthScreen() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Delivercrous</Text>
+            <Text style={styles.title}>DeliveCROUS</Text>
             <Text style={styles.subtitle}>
                 {isRegister ? "Créer un compte" : "Se connecter"}
             </Text>
@@ -114,17 +126,15 @@ export default function AuthScreen() {
                 placeholderTextColor="#999"
                 value={password}
                 onChangeText={setPassword}
+                textContentType="password"
                 secureTextEntry
             />
-            <TouchableOpacity
-                style={styles.button}
+            <Button
+                transparent={false}
+                title={isRegister ? "S'inscrire" : 'Se connecter'}
                 onPress={isRegister ? handleRegister : handleLogin}
-            >
-                <Text style={styles.buttonText}>
-                    {isRegister ? "S'inscrire" : "Se connecter"}
-                </Text>
-            </TouchableOpacity>
-            {Platform.OS === "ios" && !isRegister && (
+            />
+            {Platform.OS === 'ios' && !isRegister && (
                 <AppleAuthentication.AppleAuthenticationButton
                     buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
                     buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
