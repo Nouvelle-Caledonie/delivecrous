@@ -26,10 +26,10 @@ const ItemCard: React.FC<ItemCardProps> = ({ product }) => {
 
     const addToCart = async () => {
         try {
-            const existingCart = await AsyncStorage.getItem('cart');
+            const existingCart = await AsyncStorage.getItem('userCart');
             const cart = existingCart ? JSON.parse(existingCart) : [];
             cart.push(product);
-            await AsyncStorage.setItem('cart', JSON.stringify(cart));
+            await AsyncStorage.setItem('userCart', JSON.stringify(cart));
             console.log('Panier mis à jour:', cart);
         } catch (error) {
             console.error("Erreur lors de l'ajout au panier:", error);
