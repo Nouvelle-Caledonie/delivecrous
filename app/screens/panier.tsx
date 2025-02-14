@@ -17,7 +17,6 @@ interface Plat {
 
 export default function Panier(): JSX.Element {
     const [cart, setCart] = useState<Plat[]>([]);
-
     useEffect(() => {
         AsyncStorage.clear().then(r => console.log('Cleared'));
         initCart().then(() => console.log('Panier initialisé'));
@@ -37,7 +36,7 @@ export default function Panier(): JSX.Element {
                         categorie: 'Pizza',
                         disponible: true,
                         restaurantId: '2',
-                        image: 'napolitaine.jpeg',
+                        image: require('@/assets/images/plats/napolitaine.jpeg'),
                         quantite: 2,
                     },
                     {
@@ -49,7 +48,7 @@ export default function Panier(): JSX.Element {
                         categorie: 'Japonais',
                         disponible: true,
                         restaurantId: '4',
-                        image: '@/assets/images/plats/napolitaine.jpeg',
+                        image: require('@/assets/images/plats/sushi.jpeg'),
                         quantite: 1,
                     },
                 ];
@@ -88,7 +87,7 @@ export default function Panier(): JSX.Element {
         <View style={styles.itemContainer}>
             <View style={styles.imageContainer}>
                 {item.image ? (
-                    <Image source={{uri: `/assets/images/plats/napolitaine.jpeg`}} style={styles.image} />
+                    <Image source={item.image} style={styles.image} />
                 ) : (
                     <Text>Pas d’image</Text>
                 )}
