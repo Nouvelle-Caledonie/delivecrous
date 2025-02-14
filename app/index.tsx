@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { View, Text } from "react-native"
+import { View, Text, Button, StyleSheet } from "react-native"
 import { useRouter } from "expo-router"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
@@ -10,11 +10,7 @@ export default function Index() {
     useEffect(() => {
         const checkToken = async () => {
             const token = await AsyncStorage.getItem("userToken")
-            if (token) {
-                setIsAuthenticated(true)
-            } else {
-                setIsAuthenticated(false)
-            }
+            setIsAuthenticated(!!token)
         }
         checkToken()
     }, [])
@@ -25,29 +21,40 @@ export default function Index() {
         }
     }, [isAuthenticated])
 
+    const handleLogout = async () => {
+        await AsyncStorage.removeItem("userToken")
+        setIsAuthenticated(false)
+    }
+
     if (isAuthenticated === null) {
         return (
-            <View
-                style={{
-                    flex: 1,
-                    justifyContent: "center",
-                    alignItems: "center",
-                }}
-            >
+            <View style={styles.loadingContainer}>
                 <Text>Chargement...</Text>
             </View>
         )
     }
 
     return (
-        <View
-            style={{
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "center",
-            }}
-        >
-            <Text>Vous êtes connecté !</Text>
+        <View style={styles.container}>
+            <Text style={styles.welcomeText}>Vous êtes connecté !</Text>
+            <Button title="Se déconnecter" onPress={handleLogout} />
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    loadingContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    welcomeText: {
+        fontSize: 18,
+        marginBottom: 10
+    }
+})

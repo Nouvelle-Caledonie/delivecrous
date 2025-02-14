@@ -1,16 +1,18 @@
 import React, { useState } from 'react'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal, Pressable } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { api } from '../services/api' // <-- Assurez-vous que ce chemin correspond bien à l'emplacement de votre nouveau fichier "api.js" ou "api.ts"
+import { api } from '../services/api'
+import { useRouter } from 'expo-router' // ou votre système de navigation
 
 export default function AuthScreen() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [isRegister, setIsRegister] = useState(false)
-
     const [modalVisible, setModalVisible] = useState(false)
     const [modalMessage, setModalMessage] = useState('')
     const [modalColor, setModalColor] = useState('#333')
+
+    const router = useRouter()
 
     const handleLogin = async () => {
         try {
@@ -19,6 +21,8 @@ export default function AuthScreen() {
             setModalMessage('Connexion réussie')
             setModalColor('#4BB543')
             setModalVisible(true)
+            // Redirection immédiate :
+            router.replace('/')
         } catch (err) {
             setModalMessage(err.message || 'Identifiants invalides')
             setModalColor('#B23A48')
@@ -34,6 +38,7 @@ export default function AuthScreen() {
             setModalColor('#4BB543')
             setModalVisible(true)
             setIsRegister(false)
+            // Après la création, on relance la connexion (optionnel) :
             await handleLogin()
         } catch (err) {
             setModalMessage(err.message || 'Erreur lors de la création du compte')
