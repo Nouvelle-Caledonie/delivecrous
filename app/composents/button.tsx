@@ -51,8 +51,6 @@ export default function Button({ title, onPress }: ButtonProps) {
                     <Text style={styles.text}>{title}</Text>
                 </Pressable>
             </Animated.View>
-
-            <Text style={styles.statusText}>{isPressed ? "true" : "false"}</Text>
         </View>
     );
 }
