@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal, Pressable, Platform } from 'react-native'
-import * as AppleAuthentication from 'expo-apple-authentication'
+import React, { useEffect, useState } from 'react'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal, Pressable } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import * as LocalAuthentication from 'expo-local-authentication'
 import { useRouter } from 'expo-router'
 import { api } from '../services/api'
 
@@ -9,10 +9,23 @@ export default function AuthScreen() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [isRegister, setIsRegister] = useState(false)
+    const [biometricAvailable, setBiometricAvailable] = useState(false)
+
     const [modalVisible, setModalVisible] = useState(false)
     const [modalMessage, setModalMessage] = useState('')
     const [modalColor, setModalColor] = useState('#333')
+
     const router = useRouter()
+
+    useEffect(() => {
+        checkBiometricSupport()
+    }, [])
+
+    const checkBiometricSupport = async () => {
+        const compatible = await LocalAuthentication.hasHardwareAsync()
+        const enrolled = await LocalAuthentication.isEnrolledAsync()
+        setBiometricAvailable(compatible && enrolled)
+    }
 
     const storeUserToken = async (token: string) => {
         await AsyncStorage.setItem('userToken', token)
@@ -22,17 +35,20 @@ export default function AuthScreen() {
         router.replace('/')
     }
 
-    const handleAppleSignIn = async () => {
+    const handleBiometricLogin = async () => {
         try {
-            const credential = await AppleAuthentication.signInAsync({
-                requestedScopes: [
-                    AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-                    AppleAuthentication.AppleAuthenticationScope.EMAIL
-                ]
+            const result = await LocalAuthentication.authenticateAsync({
+                promptMessage: 'Authentification Biométrique'
             })
-            storeUserToken(credential.identityToken || '')
+            if (result.success) {
+                storeUserToken('biometric-token')
+            } else {
+                setModalMessage('Échec de la connexion biométrique')
+                setModalColor('#B23A48')
+                setModalVisible(true)
+            }
         } catch {
-            setModalMessage('Erreur Apple Sign-In')
+            setModalMessage('Impossible d’utiliser l’empreinte')
             setModalColor('#B23A48')
             setModalVisible(true)
         }
@@ -41,11 +57,7 @@ export default function AuthScreen() {
     const handleLogin = async () => {
         try {
             const response = await api.login(email, password)
-            await AsyncStorage.setItem('userToken', response.token)
-            setModalMessage('Connexion réussie')
-            setModalColor('#4BB543')
-            setModalVisible(true)
-            router.replace('/')
+            storeUserToken(response.token)
         } catch (err: any) {
             setModalMessage(err.message || 'Identifiants invalides')
             setModalColor('#B23A48')
@@ -98,6 +110,11 @@ export default function AuthScreen() {
                     {isRegister ? "S'inscrire" : 'Se connecter'}
                 </Text>
             </TouchableOpacity>
+            {biometricAvailable && !isRegister && (
+                <TouchableOpacity style={styles.biometricButton} onPress={handleBiometricLogin}>
+                    <Text style={styles.buttonText}>Se connecter avec l'empreinte digitale</Text>
+                </TouchableOpacity>
+            )}
             <TouchableOpacity
                 style={styles.switchLink}
                 onPress={() => setIsRegister(!isRegister)}
@@ -106,16 +123,6 @@ export default function AuthScreen() {
                     {isRegister ? 'Déjà un compte ? Se connecter' : 'Nouveau ? Créer un compte'}
                 </Text>
             </TouchableOpacity>
-
-            {Platform.OS === 'ios' && (
-                <AppleAuthentication.AppleAuthenticationButton
-                    buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
-                    buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
-                    cornerRadius={8}
-                    style={styles.appleButton}
-                    onPress={handleAppleSignIn}
-                />
-            )}
 
             <Modal visible={modalVisible} animationType="fade" transparent>
                 <View style={styles.modalBackground}>
@@ -137,10 +144,10 @@ const styles = StyleSheet.create({
     subtitle: { fontSize: 18, marginBottom: 30, color: '#333' },
     input: { width: '100%', height: 50, backgroundColor: '#FFF', borderRadius: 8, paddingHorizontal: 15, marginBottom: 15, fontSize: 16, color: '#333' },
     button: { width: '100%', height: 50, backgroundColor: '#B23A48', borderRadius: 8, alignItems: 'center', justifyContent: 'center', marginVertical: 10 },
+    biometricButton: { width: '100%', height: 50, backgroundColor: '#333', borderRadius: 8, alignItems: 'center', justifyContent: 'center', marginVertical: 10 },
     buttonText: { color: '#FFF', fontSize: 16 },
     switchLink: { marginTop: 10 },
     switchText: { color: '#333', fontSize: 14 },
-    appleButton: { width: '100%', height: 50, marginVertical: 10 },
     modalBackground: { flex: 1, backgroundColor: 'rgba(0,0,0,0.3)', justifyContent: 'center', alignItems: 'center' },
     modalContainer: { width: '80%', backgroundColor: '#FFF', borderRadius: 12, paddingVertical: 20, paddingHorizontal: 15, alignItems: 'center' },
     modalText: { fontSize: 18, marginBottom: 20 },
