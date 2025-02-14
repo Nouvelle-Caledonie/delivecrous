@@ -1,23 +1,23 @@
 import axios from "axios"
 
 const BASE_URL = "http://localhost:3000"
-
+//add error handling
 export const api = {
     login: async (email, password) => {
-        const response = await axios.get(`${BASE_URL}/users?email=${email}`)
-        const users = response.data
+        try {
+            const response = await axios.get(`${BASE_URL}/users?email=${email}`)
+            const users = response.data
 
-        if (users.length === 0) {
-            throw new Error("Invalid credentials")
+            const user = users[0]
+
+            if (user && user.password === password) {
+                return { user, token: "fake-jwt-token" }
+            }
+
+        } catch (error) {
+            console.error(error)
+            throw new Error("Erreur de connexion")
         }
-
-        const user = users[0]
-
-        if (user && user.password === password) {
-            return { user, token: "fake-jwt-token" }
-        }
-
-        throw new Error("Invalid credentials")
     },
 
     register: async (email, password) => {
