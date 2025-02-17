@@ -28,7 +28,14 @@ const ItemCard: React.FC<ItemCardProps> = ({ product }) => {
         try {
             const existingCart = await AsyncStorage.getItem('userCart');
             const cart = existingCart ? JSON.parse(existingCart) : [];
-            cart.push(product);
+
+            const index = cart.findIndex((item: any) => item.id === product.id);
+            if (index !== -1) {
+                cart[index].quantite = (cart[index].quantite || 0) + 1;
+            } else {
+                cart.push({ ...product, quantite: 1 });
+            }
+
             await AsyncStorage.setItem('userCart', JSON.stringify(cart));
             console.log('Panier mis à jour:', cart);
         } catch (error) {

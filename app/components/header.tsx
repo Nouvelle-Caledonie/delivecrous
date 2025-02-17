@@ -4,7 +4,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter, usePathname } from 'expo-router';
 import { Svg, G, Path, Circle, Defs, ClipPath, Rect } from 'react-native-svg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 const CartIcon = ({ itemCount }: { itemCount: number }) => (
     <View style={{ position: 'relative' }}>
         <Svg width="42" height="44" viewBox="0 0 42 44" fill="none">
@@ -29,13 +28,21 @@ const Header = () => {
         const fetchCart = async () => {
             const cart = await AsyncStorage.getItem('userCart');
             const cartItems = cart ? JSON.parse(cart) : [];
-            setCartItemCount(cartItems.length);
+            setCartItemCount(cartItems.reduce((acc: number, item: any) => acc + item.quantite, 0));
         };
 
         fetchCart();
         const interval = setInterval(fetchCart, 1000); // Met à jour en temps réel
         return () => clearInterval(interval);
     }, []);
+
+    const returnBack = () => {
+        if (router.canGoBack()) {
+            router.back();
+        } else {
+            router.push('/');
+        }
+    }
 
     const pagesSansRetour = ['/', '/screens/login', '/screens/home'];
     const pagesSansPanier = ['/screens/validation'];
@@ -45,7 +52,7 @@ const Header = () => {
     return (
         <View style={styles.container}>
             {showBackButton && (
-                <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+                <TouchableOpacity style={styles.backButton} onPress={() => returnBack()}>
                     <Ionicons name="arrow-back" size={24} color="#000" />
                 </TouchableOpacity>
             )}
@@ -77,14 +84,14 @@ const styles = StyleSheet.create({
         position: 'absolute',
         left: 15,
         top: '50%',
-        transform: [{ translateY: -12 }],
+        transform: [{ translateY: '-50%' }],
         zIndex: 10,
     },
     cartButton: {
         position: 'absolute',
         right: 15,
         top: '50%',
-        transform: [{ translateY: -12 }],
+        transform: [{ translateY: '-50%' }],
         zIndex: 10,
     },
     badge: {

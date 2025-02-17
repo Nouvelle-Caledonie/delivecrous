@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const BASE_URL = "http://localhost:3000"
-
+//add error handling
 export const api = {
     login: async (email, password) => {
         try {
