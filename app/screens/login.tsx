@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal, Pressable, Platform } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as AppleAuthentication from 'expo-apple-authentication'
-import * as LocalAuthentication from 'expo-local-authentication'
 import { useRouter } from 'expo-router'
 import { api } from '../services/api'
 import Button from "@/app/components/button"

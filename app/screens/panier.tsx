@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {router, useRouter} from "expo-router";
 
 interface Plat {
     id: string;
@@ -17,6 +18,7 @@ interface Plat {
 
 export default function Panier(): JSX.Element {
     const [cart, setCart] = useState<Plat[]>([]);
+    const router = useRouter();
 
     useEffect(() => {
         initCart();
@@ -85,8 +87,8 @@ export default function Panier(): JSX.Element {
 
     // Exemple d'action pour passer la commande
     const handlePasserCommande = () => {
-        console.log('Commande validée avec les items : ', cart);
-        // Tu peux appeler ici un endpoint API (createCommande), vider le panier, etc.
+        // envoyer vers validation.tsx après avoir validé la commande
+        router.push('/screens/validation');
     };
 
     const renderItem = ({ item }: { item: Plat }) => (
