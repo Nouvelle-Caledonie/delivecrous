@@ -11,15 +11,15 @@ interface Plat {
     categorie: string;
     disponible: boolean;
     restaurantId: string;
-    image: string;
+    image: any; // on stocke directement le require, donc "any"
     quantite: number;
 }
 
 export default function Panier(): JSX.Element {
     const [cart, setCart] = useState<Plat[]>([]);
+
     useEffect(() => {
-        AsyncStorage.clear().then(r => console.log('Cleared'));
-        initCart().then(() => console.log('Panier initialisé'));
+        initCart();
     }, []);
 
     const initCart = async () => {
@@ -83,6 +83,12 @@ export default function Panier(): JSX.Element {
         saveCart(updated);
     };
 
+    // Exemple d'action pour passer la commande
+    const handlePasserCommande = () => {
+        console.log('Commande validée avec les items : ', cart);
+        // Tu peux appeler ici un endpoint API (createCommande), vider le panier, etc.
+    };
+
     const renderItem = ({ item }: { item: Plat }) => (
         <View style={styles.itemContainer}>
             <View style={styles.imageContainer}>
@@ -92,19 +98,17 @@ export default function Panier(): JSX.Element {
                     <Text>Pas d’image</Text>
                 )}
             </View>
-
             <View style={styles.infoContainer}>
                 <Text style={styles.nom}>{item.nom}</Text>
                 <Text style={styles.desc}>{item.description}</Text>
                 <Text style={styles.prix}>{item.prix} €</Text>
             </View>
-
             <View style={styles.btnContainer}>
-                <TouchableOpacity onPress={() => decrementItem(item.id)}>
+                <TouchableOpacity onPress={() => decrementItem(item.id)} style={styles.btn}>
                     <Text style={styles.btnText}>-</Text>
                 </TouchableOpacity>
                 <Text style={styles.quantite}>{item.quantite}</Text>
-                <TouchableOpacity onPress={() => incrementItem(item.id)}>
+                <TouchableOpacity onPress={() => incrementItem(item.id)} style={styles.btn}>
                     <Text style={styles.btnText}>+</Text>
                 </TouchableOpacity>
             </View>
@@ -117,14 +121,19 @@ export default function Panier(): JSX.Element {
 
     return (
         <View style={styles.container}>
+            <Text style={styles.title}>Ton panier</Text>
             <FlatList
                 data={cart}
                 keyExtractor={(item, index) => `${item.id}-${index}`}
                 renderItem={renderItem}
+                style={styles.list}
             />
             <View style={styles.footer}>
                 <Text style={styles.totalText}>Total: {calcTotal().toFixed(2)} €</Text>
-                <Text>Délai de livraison estimé : ~30 min</Text>
+                <Text style={styles.deliveryText}>Délai de livraison estimé : ~30 min</Text>
+                <TouchableOpacity onPress={handlePasserCommande} style={styles.orderButton}>
+                    <Text style={styles.orderButtonText}>Passer la commande</Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -134,8 +143,16 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        paddingHorizontal: 15,
         paddingTop: 30,
+        paddingHorizontal: 15,
+    },
+    title: {
+        fontSize: 22,
+        fontWeight: 'bold',
+        marginBottom: 15,
+    },
+    list: {
+        marginBottom: 20,
     },
     itemContainer: {
         flexDirection: 'row',
@@ -145,24 +162,21 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         backgroundColor: '#f9f9f9',
         elevation: 1,
+        alignItems: 'center',
     },
     imageContainer: {
         marginRight: 10,
         justifyContent: 'center',
     },
     image: {
-        width: 80,
-        height: 80,
+        width: 70,
+        height: 70,
         borderRadius: 6,
         resizeMode: 'cover',
     },
     infoContainer: {
         flex: 1,
         paddingRight: 10,
-    },
-    btnContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
     },
     nom: {
         fontWeight: 'bold',
@@ -179,9 +193,19 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         color: '#333',
     },
+    btnContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    btn: {
+        backgroundColor: '#e0e0e0',
+        borderRadius: 4,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        marginHorizontal: 5,
+    },
     btnText: {
-        fontSize: 22,
-        marginHorizontal: 10,
+        fontSize: 20,
         color: '#000',
     },
     quantite: {
@@ -191,13 +215,26 @@ const styles = StyleSheet.create({
         color: '#000',
     },
     footer: {
-        marginTop: 20,
-        alignItems: 'flex-start',
+        marginTop: 10,
     },
     totalText: {
         fontWeight: 'bold',
         fontSize: 18,
         marginBottom: 10,
         color: '#000',
+    },
+    deliveryText: {
+        marginBottom: 20,
+    },
+    orderButton: {
+        backgroundColor: '#000',
+        paddingVertical: 12,
+        borderRadius: 6,
+        alignItems: 'center',
+    },
+    orderButtonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 16,
     },
 });
