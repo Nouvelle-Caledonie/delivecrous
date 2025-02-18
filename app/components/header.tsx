@@ -44,7 +44,7 @@ const Header = () => {
         }
     }
 
-    const pagesSansRetour = ['/', '/screens/login', '/screens/home'];
+    const pagesSansRetour = ['/', '/screens/login', '/screens/home', '/screens/validation'];
     const pagesSansPanier = ['/screens/validation'];
     const showBackButton = !pagesSansRetour.includes(pathname);
     const showCartButton = !pagesSansPanier.includes(pathname);
