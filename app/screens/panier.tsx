@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
         fontSize: 22,
         fontWeight: "bold",
         marginBottom: 15,
-        color: "#F9F9F9" // Texte clair
+        color: "#F9F9F9"
     },
     list: {
         marginBottom: 20

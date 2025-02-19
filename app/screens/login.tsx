@@ -162,35 +162,35 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: 'center',
         paddingHorizontal: 20,
-        backgroundColor: '#121212', // Fond sombre
+        backgroundColor: '#121212',
     },
     title: {
         fontSize: 36,
         fontWeight: 'bold',
-        color: '#fff', // Texte clair
+        color: '#fff',
         marginBottom: 15,
     },
     subtitle: {
         fontSize: 18,
-        color: '#ccc', // Texte secondaire clair
+        color: '#ccc',
         marginBottom: 40,
     },
     input: {
         width: '100%',
         height: 50,
-        backgroundColor: '#333', // Fond sombre pour les inputs
+        backgroundColor: '#333',
         borderRadius: 8,
         paddingHorizontal: 15,
         marginBottom: 20,
         fontSize: 16,
-        color: '#fff', // Texte des inputs clair
+        color: '#fff',
         borderColor: '#444',
         borderWidth: 1,
     },
     button: {
         width: '100%',
         height: 50,
-        backgroundColor: '#B23A48', // Couleur d'accentuation
+        backgroundColor: '#B23A48',
         borderRadius: 8,
         alignItems: 'center',
         justifyContent: 'center',
@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 50,
         marginVertical: 10,
-        backgroundColor: '#000', // Fond sombre pour le bouton Apple
+        backgroundColor: '#000',
         borderRadius: 8,
         justifyContent: 'center',
         alignItems: 'center',
@@ -219,13 +219,13 @@ const styles = StyleSheet.create({
     },
     modalBackground: {
         flex: 1,
-        backgroundColor: 'rgba(0,0,0,0.5)', // Fond sombre semi-transparent pour le modal
+        backgroundColor: 'rgba(0,0,0,0.5)',
         justifyContent: 'center',
         alignItems: 'center',
     },
     modalContainer: {
         width: '80%',
-        backgroundColor: '#222', // Fond du modal sombre
+        backgroundColor: '#222',
         borderRadius: 12,
         paddingVertical: 20,
         paddingHorizontal: 15,
@@ -233,11 +233,11 @@ const styles = StyleSheet.create({
     },
     modalText: {
         fontSize: 18,
-        color: '#fff', // Texte du modal clair
+        color: '#fff',// Texte du modal clair
         marginBottom: 20,
     },
     closeButton: {
-        backgroundColor: '#B23A48', // Couleur de fermeture en rouge accent
+        backgroundColor: '#B23A48',
         borderRadius: 8,
         paddingHorizontal: 15,
         paddingVertical: 10,

@@ -87,10 +87,10 @@ const BottomMenu = () => {
     const cartItemCount = useCartCount();
 
     // On définit nos onglets
-    type KnownRoutes = '/' | '/screens/restaurants' | '/screens/panier' | '/screens/profil';
+    type KnownRoutes = '/screens/home' | '/screens/restaurants' | '/screens/panier' | '/screens/profil';
 
     const tabs: { key: string; label: string; icon: string; route: KnownRoutes }[] = [
-        {key: 'home', label: 'Accueil', icon: 'home-outline', route: '/'},
+        {key: 'home', label: 'Accueil', icon: 'home-outline', route: '/screens/home'},
         {key: 'restos', label: 'Restaurants', icon: 'restaurant-outline', route: '/screens/restaurants'},
         {key: 'panier', label: 'Panier', icon: 'cart-outline', route: '/screens/panier'},
         {key: 'profil', label: 'Profil', icon: 'person-outline', route: '/screens/profil'},
@@ -99,6 +99,7 @@ const BottomMenu = () => {
 
     // Style conditionnel si l’onglet est actif
     const isActive = (route: string) => pathname === route;
+
 
     return (
         <View style={styles.bottomMenuContainer}>
@@ -149,7 +150,7 @@ const styles = StyleSheet.create({
     headerContainer: {
         width: '100%',
         height: 70,
-        backgroundColor: '#130B11', // Couleur sombre pour l'en-tête
+        backgroundColor: '#130B11',
         justifyContent: 'center',
         alignItems: 'center',
         position: 'relative',
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
     headerTitle: {
         fontSize: 20,
         fontWeight: '600',
-        color: '#F9F9F9', // Texte clair sur fond sombre
+        color: '#F9F9F9',
     },
     backButton: {
         position: 'absolute',
@@ -180,7 +181,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: -5,
         top: -5,
-        backgroundColor: '#E33620', // Badge rouge vif
+        backgroundColor: '#E33620',
         width: 18,
         height: 18,
         borderRadius: 9,
@@ -198,8 +199,8 @@ const styles = StyleSheet.create({
         height: 60,
         flexDirection: 'row',
         borderTopWidth: 1,
-        borderTopColor: '#444', // Ligne de séparation sombre
-        backgroundColor: '#130B11', // Fond sombre du menu
+        borderTopColor: '#444',
+        backgroundColor: '#130B11',
         justifyContent: 'space-around',
         alignItems: 'center',
         paddingHorizontal: 20,
@@ -212,13 +213,13 @@ const styles = StyleSheet.create({
     menuItemText: {
         fontSize: 12,
         marginTop: 4,
-        color: '#F9F9F9', // Texte clair
+        color: '#F9F9F9',
     },
     bottomBadge: {
         position: 'absolute',
         right: -8,
         top: -4,
-        backgroundColor: '#E33620', // Badge rouge vif
+        backgroundColor: '#E33620',
         width: 18,
         height: 18,
         borderRadius: 9,
