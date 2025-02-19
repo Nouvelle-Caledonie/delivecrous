@@ -27,38 +27,7 @@ export default function Panier(): JSX.Element {
     const initCart = async () => {
         try {
             const storedCart = await AsyncStorage.getItem('userCart');
-            if (!storedCart || storedCart === '[]') {
-                const defaultCart: Plat[] = [
-                    {
-                        id: '10',
-                        nom: 'Pizza Napolitaine',
-                        description: 'Tomates fraîches, mozzarella, basilic.',
-                        prix: 10.0,
-                        allergenes: ['gluten', 'lactose'],
-                        categorie: 'Pizza',
-                        disponible: true,
-                        restaurantId: '2',
-                        image: require('@/assets/images/plats/napolitaine.jpeg'),
-                        quantite: 2,
-                    },
-                    {
-                        id: '11',
-                        nom: 'Sushi Maki',
-                        description: 'Rouleaux de riz, poisson cru, algue nori.',
-                        prix: 12.5,
-                        allergenes: ['poisson', 'soja'],
-                        categorie: 'Japonais',
-                        disponible: true,
-                        restaurantId: '4',
-                        image: require('@/assets/images/plats/sushi.jpeg'),
-                        quantite: 1,
-                    },
-                ];
-                await AsyncStorage.setItem('userCart', JSON.stringify(defaultCart));
-                setCart(defaultCart);
-            } else {
-                setCart(JSON.parse(storedCart));
-            }
+            setCart(JSON.parse(storedCart));
         } catch (error) {
             console.error('Erreur lors de l’init du panier :', error);
         }
