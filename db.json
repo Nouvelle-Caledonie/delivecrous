@@ -346,14 +346,7 @@
       "favoris": []
     },
     {
-      "id": "d9cc",
-      "email": "caca@gmail.com",
-      "password": "Joranou",
-      "nom": "",
-      "prenom": "",
-      "favoris": []
-    },
-    {
+<<<<<<< HEAD
       "id": "3dba",
       "email": "Ff",
       "password": "cc",
@@ -365,6 +358,15 @@
       "id": "4789",
       "email": "cc",
       "password": "cx",
+      "nom": "",
+      "prenom": "",
+      "favoris": []
+    },
+    {
+      "id": "7f8f",
+      "email": "dcd@h.hg",
+      "password": "dedjffdv",
+
       "nom": "",
       "prenom": "",
       "favoris": []
