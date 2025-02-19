@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import Button from './button';
 interface ItemCardProps {
     product: {
         id: number;
@@ -45,20 +45,26 @@ const ItemCard: React.FC<ItemCardProps> = ({ product }) => {
 
     return (
         <View style={styles.card}>
-            <TouchableOpacity onPress={handlePress}>
+            <TouchableOpacity onPress={handlePress} style={styles.imageWrapper}>
                 <Image source={{ uri: product.image }} style={styles.image} />
-                <View style={styles.infoContainer}>
-                    <Text style={styles.name}>{product.nom}</Text>
-                    <Text style={styles.category}>{product.categorie}</Text>
-                    <Text style={styles.description}>{product.description}</Text>
-                    <Text style={styles.price}>{product.prix} €</Text>
-                    {product.allergenes.length > 0 && (
-                        <Text style={styles.allergenes}>Allergènes: {product.allergenes.join(', ')}</Text>
-                    )}
-                </View>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.addButton} onPress={addToCart}>
-                <Text style={styles.addButtonText}>Ajouter au panier</Text>
+
+            <View style={styles.infoContainer}>
+                <Text style={styles.name}>{product.nom}</Text>
+                <Text style={styles.category}>{product.categorie}</Text>
+                <Text style={styles.description} numberOfLines={2}>
+                    {product.description}
+                </Text>
+                <Text style={styles.price}>{product.prix.toFixed(2)} €</Text>
+                {product.allergenes.length > 0 && (
+                    <Text style={styles.allergenes}>
+                        Allergènes: {product.allergenes.join(', ')}
+                    </Text>
+                )}
+            </View>
+
+            <TouchableOpacity style={styles.addButton}>
+                <Button title="Ajouter au panier" onPress={addToCart} transparent={false}/>
             </TouchableOpacity>
         </View>
     );
@@ -66,60 +72,70 @@ const ItemCard: React.FC<ItemCardProps> = ({ product }) => {
 
 const styles = StyleSheet.create({
     card: {
+        width: '90%',
+        alignSelf: 'center',
         backgroundColor: '#fff',
         borderRadius: 10,
-        padding: 15,
+        paddingVertical: 15,
         marginVertical: 10,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 4,
-        elevation: 5,
-        flexDirection: 'column',
+        elevation: 3,
         alignItems: 'center',
     },
+    imageWrapper: {
+        width: '100%',
+    },
     image: {
-        width: 100,
-        height: 100,
+        width: '100%',
+        aspectRatio: 1,
         borderRadius: 10,
     },
     infoContainer: {
-        flex: 1,
         alignItems: 'center',
-        marginTop: 10,
+        marginTop: 15,
+        paddingHorizontal: 10,
     },
     name: {
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: 'bold',
+        color: '#333',
+        marginBottom: 5,
     },
     category: {
         fontSize: 14,
         color: '#888',
-        marginBottom: 5,
+        marginBottom: 6,
     },
     description: {
         fontSize: 14,
         color: '#666',
+        textAlign: 'center',
+        marginBottom: 6,
     },
     price: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        marginTop: 5,
+        fontSize: 18,
+        fontWeight: '600',
+        color: '#000',
+        marginBottom: 6,
     },
     allergenes: {
         fontSize: 12,
         color: '#c00',
-        marginTop: 5,
+        textAlign: 'center',
+        marginTop: 2,
     },
     addButton: {
-        marginTop: 10,
-        backgroundColor: '#007AFF',
-        padding: 10,
-        borderRadius: 5,
+        marginTop: 15,
+        paddingHorizontal: 20,
+        paddingVertical: 12,
     },
     addButtonText: {
         color: '#fff',
         fontWeight: 'bold',
+        fontSize: 16,
     },
 });
 

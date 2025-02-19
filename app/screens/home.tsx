@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import {View, Text, StyleSheet, FlatList, ScrollView} from 'react-native';
 import Header from '../components/header';
 import ItemCard from '../components/itemCard';
 import { api } from '../services/api';
@@ -20,14 +20,14 @@ const HomeScreen: React.FC = () => {
     }, []);
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container} contentContainerStyle={{ alignItems: 'center' }}>
             <Text style={styles.title}>La carte</Text>
             <FlatList
                 data={products}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => <ItemCard product={item} />}
             />
-        </View>
+        </ScrollView>
     );
 };
 
@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        alignItems: 'center',
         padding: 20,
     },
     title: {
