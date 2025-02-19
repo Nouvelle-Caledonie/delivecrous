@@ -55,10 +55,6 @@ export const api = {
             return { action: "added", favorite: addResponse.data }
         }
     },
-    getUser: async () => {
-        const response = await axios.get(`${BASE_URL}/users`)
-        return response.data
-    },
     getRestaurants: async () => {
         const response = await axios.get(`${BASE_URL}/restaurants`)
         return response.data
