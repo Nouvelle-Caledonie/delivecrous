@@ -2,142 +2,267 @@
   "restaurants": [
     {
       "id": "1",
-      "nom": "Le Gourmet",
-      "adresse": "123 Rue de Paris, 75001 Paris",
-      "telephone": "0123456789",
-      "plats": [
-        "1",
-        "2",
-        "3"
-      ]
+      "nom": "Restaurant universitaire d'Arsonval",
+      "adresse": "5 Rue d'Arsonval",
+      "telephone": "04 76 94 32 51",
+      "typeCuisine": "Française",
+      "horaires": {
+        "lundi": "11:00 - 14:00",
+        "mardi": "11:00 - 14:00",
+        "mercredi": "11:00 - 14:00",
+        "jeudi": "11:00 - 14:00",
+        "vendredi": "11:00 - 14:00",
+        "samedi": "Fermé",
+        "dimanche": "Fermé"
+      },
+      "description": "Un restaurant universitaire proposant des plats équilibrés pour les étudiants.",
+      "noteMoyenne": 4.2,
+      "optionsVegetariennes": true,
+      "prixMoyen": 3.30,
+      "modesPaiement": ["IZLY", "CB"],
+      "plats": ["1", "2", "3"]
     },
     {
       "id": "2",
-      "nom": "Fast & Fresh",
-      "adresse": "45 Avenue de la République, 75011 Paris",
-      "telephone": "0987654321",
-      "plats": [
-        "4",
-        "5"
-      ]
+      "nom": "Restaurant universitaire Diderot",
+      "adresse": "40 rue des universités, 38400 Saint-Martin-d'Hères",
+      "telephone": "04 76 82 40 86",
+      "typeCuisine": "Française",
+      "horaires": {
+        "lundi": "11:20 - 13:45",
+        "mardi": "11:20 - 13:45",
+        "mercredi": "11:20 - 13:45",
+        "jeudi": "11:20 - 13:45",
+        "vendredi": "11:20 - 13:45",
+        "samedi": "Fermé",
+        "dimanche": "Fermé"
+      },
+      "description": "Un restaurant universitaire accessible aux personnes à mobilité réduite.",
+      "noteMoyenne": 4.5,
+      "optionsVegetariennes": true,
+      "prixMoyen": 3.30,
+      "modesPaiement": ["IZLY", "CB"],
+      "plats": ["1", "2", "3"]
     },
     {
       "id": "3",
-      "nom": "Douceurs Sucrées",
-      "adresse": "78 Boulevard Saint-Germain, 75005 Paris",
-      "telephone": "0147258369",
-      "plats": [
-        "6",
-        "7",
-        "8"
-      ]
-    }
-  ],
-  "plats": [
-    {
-      "id": "1",
-      "nom": "Burger Végétarien",
-      "description": "Steak de soja, salade, tomates, pain brioché.",
-      "prix": 8.5,
-      "allergenes": [
-        "soja",
-        "gluten"
-      ],
-      "categorie": "Végétarien",
-      "disponible": true,
-      "restaurantId": "1",
-      "image": "https://lacuisineensemble.fr/wp-content/uploads/2022/02/recette-burger-maison.jpg"
-    },
-    {
-      "id": "2",
-      "nom": "Salade César",
-      "description": "Laitue, poulet grillé, parmesan, croûtons et sauce César.",
-      "prix": 9,
-      "allergenes": [
-        "lactose",
-        "gluten"
-      ],
-      "categorie": "Salade",
-      "disponible": true,
-      "restaurantId": "1",
-      "image": "https://www.galbani.fr/wp-content/uploads/2020/04/AdobeStock_157570276-2.jpeg"
-    },
-    {
-      "id": "3",
-      "nom": "Pâtes Primavera",
-      "description": "Pâtes fraîches aux légumes du soleil et sauce tomate.",
-      "prix": 10,
-      "allergenes": [
-        "gluten"
-      ],
-      "categorie": "Pâtes",
-      "disponible": true,
-      "restaurantId": "1",
-      "image": "https://img.hellofresh.com/f_auto,fl_lossy,q_auto,w_1200/hellofresh_s3/image/HF_Y24_R1018_W32_CA_RV158821-1_Main_low-c3887eef.jpg"
+      "nom": "Cafétéria Cité des territoires IGA",
+      "adresse": "Domaine universitaire, 38400 Saint-Martin-d'Hères",
+      "telephone": "04 76 82 76 50",
+      "typeCuisine": "Snacks et sandwichs",
+      "horaires": {
+        "lundi": "09:30 - 13:50",
+        "mardi": "09:30 - 13:50",
+        "mercredi": "09:30 - 13:50",
+        "jeudi": "09:30 - 13:50",
+        "vendredi": "09:30 - 13:50",
+        "samedi": "Fermé",
+        "dimanche": "Fermé"
+      },
+      "description": "Une cafétéria proposant des snacks et des sandwichs pour les étudiants.",
+      "noteMoyenne": 4.0,
+      "optionsVegetariennes": true,
+      "prixMoyen": 2.50,
+      "modesPaiement": ["IZLY", "CB"],
+      "plats": ["1", "2", "3"]
     },
     {
       "id": "4",
-      "nom": "Hot-dog classique",
-      "description": "Saucisse grillée dans un pain moelleux avec moutarde et ketchup.",
-      "prix": 5.5,
-      "allergenes": [
-        "gluten"
-      ],
-      "categorie": "Fast-food",
-      "disponible": true,
-      "restaurantId": "2",
-      "image": "https://www.casselin.com/blog/wp-content/uploads/2023/11/Les-differences-entre-les-hot-dogs-americains-et-europeens.jpg"
+      "nom": "Restaurant universitaire du Home des Étudiants",
+      "adresse": "55, allée de Condillac, 38406 Saint Martin d’Hères",
+      "telephone": "04 76 54 90 00",
+      "typeCuisine": "Française",
+      "horaires": {
+        "lundi": "11:30 - 13:30",
+        "mardi": "11:30 - 13:30",
+        "mercredi": "11:30 - 13:30",
+        "jeudi": "11:30 - 13:30",
+        "vendredi": "11:30 - 13:30",
+        "samedi": "Fermé",
+        "dimanche": "Fermé"
+      },
+      "description": "Un restaurant universitaire situé sur le domaine universitaire.",
+      "noteMoyenne": 4.3,
+      "optionsVegetariennes": true,
+      "prixMoyen": 3.30,
+      "modesPaiement": ["IZLY", "CB"],
+      "plats": ["1", "2", "3"]
     },
     {
       "id": "5",
-      "nom": "Frites maison",
-      "description": "Pommes de terre fraîches coupées en bâtonnets et frites.",
-      "prix": 3.5,
-      "allergenes": [],
-      "categorie": "Accompagnement",
-      "disponible": true,
-      "restaurantId": "2",
-      "image": "https://www.lespommesdeterre.com/wp-content/uploads/2017/10/frites-maison-c-shutterstock_bd.jpg"
+      "nom": "Restaurant universitaire Jacob-Bellecombette",
+      "adresse": "Rue Robert Barr, 73000 Jacob-Bellecombette",
+      "telephone": "04 79 69 55 62",
+      "typeCuisine": "Française",
+      "horaires": {
+        "lundi": "11:00 - 14:00",
+        "mardi": "11:00 - 14:00",
+        "mercredi": "11:00 - 14:00",
+        "jeudi": "11:00 - 14:00",
+        "vendredi": "11:00 - 14:00",
+        "samedi": "Fermé",
+        "dimanche": "Fermé"
+      },
+      "description": "Un restaurant universitaire proposant des repas équilibrés pour les étudiants.",
+      "noteMoyenne": 4.1,
+      "optionsVegetariennes": true,
+      "prixMoyen": 3.30,
+      "modesPaiement": ["IZLY", "CB"],
+      "plats": ["1", "2", "3"]
     },
     {
       "id": "6",
-      "nom": "Crème brûlée",
-      "description": "Dessert traditionnel à la vanille avec une fine couche de caramel.",
-      "prix": 4.5,
-      "allergenes": [
-        "lactose"
-      ],
-      "categorie": "Dessert",
-      "disponible": true,
-      "restaurantId": "3",
-      "image": "https://www.markal.fr/application/files/medias_markal/recettes/988-recette-creme-brulee.jpg"
+      "nom": "Restaurant universitaire Condillac",
+      "adresse": "55, allée de Condillac, 38406 Saint Martin d’Hères",
+      "telephone": "04 76 82 76 50",
+      "typeCuisine": "Française",
+      "horaires": {
+        "lundi": "11:30 - 13:30",
+        "mardi": "11:30 - 13:30",
+        "mercredi": "11:30 - 13:30",
+        "jeudi": "11:30 - 13:30",
+        "vendredi": "11:30 - 13:30",
+        "samedi": "Fermé",
+        "dimanche": "Fermé"
+      },
+      "description": "Un restaurant universitaire situé sur le domaine universitaire.",
+      "noteMoyenne": 4.4,
+      "optionsVegetariennes": true,
+      "prixMoyen": 3.30,
+      "modesPaiement": ["IZLY", "CB"],
+      "plats": ["1", "2", "3"]
     },
     {
       "id": "7",
-      "nom": "Macarons assortis",
-      "description": "Assortiment de macarons aux saveurs variées.",
-      "prix": 6,
-      "allergenes": [
-        "amandes",
-        "lactose"
-      ],
-      "categorie": "Dessert",
-      "disponible": true,
-      "restaurantId": "3",
-      "image": "https://www.lenelson-patisserie.com/607-large_default/coffret-de-macarons-assortis.jpg"
+      "nom": "Restaurant universitaire Les Taillées",
+      "adresse": "2 rue des Taillées, 38400 Saint Martin d'Hères",
+      "telephone": "04 76 82 76 50",
+      "typeCuisine": "Française",
+      "horaires": {
+        "lundi": "11:30 - 13:30",
+        "mardi": "11:30 - 13:30",
+        "mercredi": "11:30 - 13:30",
+        "jeudi": "11:30 - 13:30",
+        "vendredi": "11:30 - 13:30",
+        "samedi": "Fermé",
+        "dimanche": "Fermé"
+      },
+      "description": "Un restaurant universitaire situé sur le domaine universitaire.",
+      "noteMoyenne": 4.3,
+      "optionsVegetariennes": true,
+      "prixMoyen": 3.30,
+      "modesPaiement": ["IZLY", "CB"],
+      "plats": ["1", "2", "3"]
     },
     {
       "id": "8",
-      "nom": "Tarte aux fruits",
-      "description": "Tarte légère garnie de fruits frais de saison.",
-      "prix": 5,
-      "allergenes": [
-        "gluten"
-      ],
-      "categorie": "Dessert",
-      "disponible": true,
-      "restaurantId": "3",
-      "image": "https://kissmychef.com/wp-content/uploads/2021/09/tarte-1.png"
+      "nom": "Restaurant universitaire Berlioz",
+      "adresse": "361 allée de Berlioz, 38400 Saint Martin d'Hères",
+      "telephone": "04 76 54 90 00",
+      "typeCuisine": "Française",
+      "horaires": {
+        "lundi": "11:30 - 13:30",
+        "mardi": "11:30 - 13:30",
+        "mercredi": "11:30 - 13:30",
+        "jeudi": "11:30 - 13:30",
+        "vendredi": "11:30 - 13:30",
+        "samedi": "Fermé",
+        "dimanche": "Fermé"
+      },
+      "description": "Un restaurant universitaire situé sur le domaine universitaire.",
+      "noteMoyenne": 4.2,
+      "optionsVegetariennes": true,
+      "prixMoyen": 3.30,
+      "modesPaiement": ["IZLY", "CB"],
+      "plats": ["1", "2", "3"]
+    },
+    {
+      "id": "9",
+      "nom": "Restaurant universitaire Houille Blanche",
+      "adresse": "271-291/3 rue de la Houille Blanche, 38400 Saint Martin d'Hères",
+      "telephone": "04 76 82 76 50",
+      "typeCuisine": "Française",
+      "horaires": {
+        "lundi": "11:30 - 13:30",
+        "mardi": "11:30 - 13:30",
+        "mercredi": "11:30 - 13:30",
+        "jeudi": "11:30 - 13:30",
+        "vendredi": "11:30 - 13:30",
+        "samedi": "Fermé",
+        "dimanche": "Fermé"
+      },
+      "description": "Un restaurant universitaire situé sur le domaine universitaire.",
+      "noteMoyenne": 4.1,
+      "optionsVegetariennes": true,
+      "prixMoyen": 3.30,
+      "modesPaiement": ["IZLY", "CB"],
+      "plats": ["1", "2", "3"]
+    },
+    {
+      "id": "10",
+      "nom": "Restaurant universitaire Oiseau Blanc",
+      "adresse": "40 rue des universités, 38400 Saint-Martin-d'Hères",
+      "telephone": "04 76 82 40 80",
+      "typeCuisine": "Française",
+      "horaires": {
+        "lundi": "11:30 - 13:30",
+        "mardi": "11:30 - 13:30",
+        "mercredi": "11:30 - 13:30",
+        "jeudi": "11:30 - 13:30",
+        "vendredi": "11:30 - 13:30",
+        "samedi": "Fermé",
+        "dimanche": "Fermé"
+      },
+      "description": "Un restaurant universitaire situé sur le domaine universitaire.",
+      "noteMoyenne": 4.0,
+      "optionsVegetariennes": true,
+      "prixMoyen": 3.30,
+      "modesPaiement": ["IZLY", "CB"],
+      "plats": ["1", "2", "3"]
+    },
+    {
+      "id": "11",
+      "nom": "Kiosque Green-Er",
+      "adresse": "21 Avenue des Martyrs, 38000 Grenoble",
+      "telephone": "04 76 82 40 80",
+      "typeCuisine": "Snacks et sandwichs",
+      "horaires": {
+        "lundi": "09:30 - 14:00",
+        "mardi": "09:30 - 14:00",
+        "mercredi": "09:30 - 14:00",
+        "jeudi": "09:30 - 14:00",
+        "vendredi": "09:30 - 14:00",
+        "samedi": "Fermé",
+        "dimanche": "Fermé"
+      },
+      "description": "Un kiosque proposant des snacks et des sandwichs pour les étudiants.",
+      "noteMoyenne": 4.2,
+      "optionsVegetariennes": true,
+      "prixMoyen": 2.50,
+      "modesPaiement": ["IZLY", "CB"],
+      "plats": ["1", "2", "3"]
+    },
+    {
+      "id": "12",
+      "nom": "Home Trattoria",
+      "adresse": "2 avenue General Champon, 38000 Grenoble",
+      "telephone": "04 76 46 47 55",
+      "typeCuisine": "Italienne",
+      "horaires": {
+        "lundi": "11:30 - 13:30",
+        "mardi": "11:30 - 13:30",
+        "mercredi": "11:30 - 13:30",
+        "jeudi": "11:30 - 13:30",
+        "vendredi": "11:30 - 13:30",
+        "samedi": "Fermé",
+        "dimanche": "Fermé"
+      },
+      "description": "Une trattoria proposant des pizzas et pâtisseries faites maison.",
+      "noteMoyenne": 4.3,
+      "optionsVegetariennes": true,
+      "prixMoyen": 3.30,
+      "modesPaiement": ["IZLY", "CB"],
+      "plats": ["1", "2", "3"]
     }
   ],
   "users": [
@@ -216,6 +341,14 @@
       "id": "43c6",
       "email": "aze",
       "password": "aze",
+      "nom": "",
+      "prenom": "",
+      "favoris": []
+    },
+    {
+      "id": "d9cc",
+      "email": "caca@gmail.com",
+      "password": "Joranou",
       "nom": "",
       "prenom": "",
       "favoris": []
