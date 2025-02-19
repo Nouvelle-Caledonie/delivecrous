@@ -45,6 +45,8 @@ export default function AuthScreen() {
             if (isEmail()) {
                 const response = await api.register(email, password)
                 await AsyncStorage.setItem("userToken", response.token)
+                await AsyncStorage.setItem("User", response.email)
+                console.log(response.email)
                 setModalMessage("Compte créé avec succès")
                 setModalColor("#4BB543")
                 setModalVisible(true)

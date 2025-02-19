@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const BASE_URL = "http://localhost:3000"
-//add error handling
+
 export const api = {
     login: async (email, password) => {
         try {
@@ -33,7 +33,7 @@ export const api = {
         }
         try {
             const response = await axios.post(`${BASE_URL}/users`, newUser)
-            return { user: response.data, token: "fake-jwt-token" }
+            return { user: response.data, token: "fake-jwt-token", email:email }
         } catch {
             throw new Error("Impossible de créer l'utilisateur")
         }
@@ -54,6 +54,10 @@ export const api = {
             const addResponse = await axios.post(`${BASE_URL}/favoris`, newFavorite)
             return { action: "added", favorite: addResponse.data }
         }
+    },
+    getUser: async () => {
+        const response = await axios.get(`${BASE_URL}/users`)
+        return response.data
     },
     getRestaurants: async () => {
         const response = await axios.get(`${BASE_URL}/restaurants`)
