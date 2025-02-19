@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+// screens/Profil.tsx
+import React, { useState, useEffect } from "react"
 import {
     View,
     Text,
@@ -9,86 +10,69 @@ import {
     Modal,
     Pressable,
     ScrollView
-} from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useRouter } from "expo-router";
-import axios from "axios";
-import { api } from "../services/api";
+} from "react-native"
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import { useRouter } from "expo-router"
+import axios from "axios"
+import { api } from "../services/api"
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "http://localhost:3000"
 
 export default function Profil(): JSX.Element {
-    const router = useRouter();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [userId, setUserId] = useState("");
-    const [editMode, setEditMode] = useState(false);
-    const [orders, setOrders] = useState<any[]>([]);
-    const [modalVisible, setModalVisible] = useState(false);
-    const [modalMessage, setModalMessage] = useState("");
-    const [modalColor, setModalColor] = useState("#333");
+    const router = useRouter()
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [userId, setUserId] = useState("")
+    const [editMode, setEditMode] = useState(false)
+    const [modalVisible, setModalVisible] = useState(false)
+    const [modalMessage, setModalMessage] = useState("")
+    const [modalColor, setModalColor] = useState("#333")
 
     useEffect(() => {
-        loadUser();
-    }, []);
+        loadUser()
+    }, [])
 
-    useEffect(() => {
-        if (userId) {
-            loadOrders(userId);
-        }
-    }, [userId]);
-
-    // Récupère l'objet utilisateur complet depuis AsyncStorage
     const loadUser = async () => {
-        const storedUser = await AsyncStorage.getItem("User");
-        if (storedUser) {
+        const storedEmail = await AsyncStorage.getItem("User")
+        if (storedEmail) {
+            setEmail(storedEmail)
             try {
-                const userObj = JSON.parse(storedUser);
-                setEmail(userObj.email);
-                setUserId(userObj.id);
-                setPassword(userObj.password || "");
-            } catch (error) {
-                console.error("Erreur lors du parsing du user :", error);
-            }
+                const response = await axios.get(`${BASE_URL}/users?email=${storedEmail}`)
+                if (response.data && response.data.length > 0) {
+                    const user = response.data[0]
+                    setUserId(user.id)
+                    setPassword(user.password || "")
+                }
+            } catch (error) {}
         }
-    };
-
-    const loadOrders = async (id: string) => {
-        try {
-            const res = await api.getCommandesByUser(id);
-            setOrders(res);
-        } catch (error) {
-            console.error("Erreur lors du chargement des commandes :", error);
-        }
-    };
+    }
 
     const handleUpdateProfile = async () => {
         if (!email || !password) {
-            setModalMessage("L'email et le mot de passe ne doivent pas être vides");
-            setModalColor("#B23A48");
-            setModalVisible(true);
-            return;
+            setModalMessage("L'email et le mot de passe ne doivent pas être vides")
+            setModalColor("#B23A48")
+            setModalVisible(true)
+            return
         }
         try {
-            const response = await axios.patch(`${BASE_URL}/users/${userId}`, { email, password });
-            // Mise à jour de l'objet utilisateur dans AsyncStorage
-            await AsyncStorage.setItem("User", JSON.stringify(response.data));
-            setModalMessage("Profil mis à jour");
-            setModalColor("#4BB543");
-            setModalVisible(true);
-            setEditMode(false);
+            const response = await axios.patch(`${BASE_URL}/users/${userId}`, { email, password })
+            await AsyncStorage.setItem("User", response.data.email)
+            setModalMessage("Profil mis à jour")
+            setModalColor("#4BB543")
+            setModalVisible(true)
+            setEditMode(false)
         } catch (error) {
-            setModalMessage("Erreur lors de la mise à jour");
-            setModalColor("#B23A48");
-            setModalVisible(true);
+            setModalMessage("Erreur lors de la mise à jour")
+            setModalColor("#B23A48")
+            setModalVisible(true)
         }
-    };
+    }
 
     const handleLogout = async () => {
-        await AsyncStorage.removeItem("userToken");
-        await AsyncStorage.removeItem("User");
-        router.replace("/screens/login");
-    };
+        await AsyncStorage.removeItem("userToken")
+        await AsyncStorage.removeItem("User")
+        router.replace("/screens/login")
+    }
 
     const handleDeleteAccount = async () => {
         Alert.alert("Confirmation", "Voulez-vous vraiment supprimer votre compte ?", [
@@ -98,27 +82,23 @@ export default function Profil(): JSX.Element {
                 style: "destructive",
                 onPress: async () => {
                     try {
-                        await axios.delete(`${BASE_URL}/users/${userId}`);
-                        await AsyncStorage.removeItem("userToken");
-                        await AsyncStorage.removeItem("User");
-                        router.replace("/screens/login");
+                        await axios.delete(`${BASE_URL}/users/${userId}`)
+                        await AsyncStorage.removeItem("userToken")
+                        await AsyncStorage.removeItem("User")
+                        router.replace("/screens/login")
                     } catch (error) {
-                        setModalMessage("Erreur lors de la suppression du compte");
-                        setModalColor("#B23A48");
-                        setModalVisible(true);
+                        setModalMessage("Erreur lors de la suppression du compte")
+                        setModalColor("#B23A48")
+                        setModalVisible(true)
                     }
                 }
             }
-        ]);
-    };
+        ])
+    }
 
     return (
         <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 30 }}>
-            <TouchableOpacity
-                onLongPress={() => setEditMode(true)}
-                activeOpacity={0.8}
-                style={styles.profileContainer}
-            >
+            <TouchableOpacity onLongPress={() => setEditMode(true)} activeOpacity={0.8} style={styles.profileContainer}>
                 <Text style={styles.profileTitle}>Mon Profil</Text>
                 {editMode ? (
                     <>
@@ -156,27 +136,7 @@ export default function Profil(): JSX.Element {
                     </>
                 )}
             </TouchableOpacity>
-
             <View style={styles.divider} />
-
-            <View style={styles.ordersContainer}>
-                <Text style={styles.ordersTitle}>Mes Commandes</Text>
-                {orders.length === 0 ? (
-                    <Text style={styles.noOrders}>Aucune commande passée.</Text>
-                ) : (
-                    orders.map((order) => (
-                        <View key={order.id} style={styles.orderCard}>
-                            <Text style={styles.orderId}>Commande #{order.id}</Text>
-                            <Text style={styles.orderDate}>{new Date(order.date).toLocaleString()}</Text>
-                            <Text style={styles.orderTotal}>
-                                Total : {Number(order.total).toFixed(2)} €
-                            </Text>
-                            <Text style={styles.orderStatus}>Statut : {order.statut}</Text>
-                        </View>
-                    ))
-                )}
-            </View>
-
             <View style={styles.footerButtons}>
                 <TouchableOpacity style={styles.primaryButton} onPress={handleLogout}>
                     <Text style={styles.buttonText}>Se déconnecter</Text>
@@ -185,7 +145,6 @@ export default function Profil(): JSX.Element {
                     <Text style={styles.buttonText}>Supprimer mon compte</Text>
                 </TouchableOpacity>
             </View>
-
             <Modal visible={modalVisible} transparent animationType="fade">
                 <View style={styles.modalBackground}>
                     <View style={styles.modalContainer}>
@@ -197,7 +156,7 @@ export default function Profil(): JSX.Element {
                 </View>
             </Modal>
         </ScrollView>
-    );
+    )
 }
 
 const styles = StyleSheet.create({
@@ -270,51 +229,9 @@ const styles = StyleSheet.create({
         backgroundColor: "#B23A48",
         marginVertical: 20
     },
-    ordersContainer: {
-        marginBottom: 20
-    },
-    ordersTitle: {
-        fontSize: 28,
-        fontWeight: "600",
-        color: "#B23A48",
-        textAlign: "center",
-        marginBottom: 15
-    },
-    noOrders: {
-        fontSize: 16,
-        color: "#777",
-        textAlign: "center"
-    },
-    orderCard: {
-        backgroundColor: "#FFF",
-        borderRadius: 10,
-        padding: 15,
-        marginBottom: 10,
-        elevation: 2
-    },
-    orderId: {
-        fontSize: 18,
-        fontWeight: "bold",
-        color: "#333",
-        marginBottom: 5
-    },
-    orderDate: {
-        fontSize: 14,
-        color: "#555",
-        marginBottom: 5
-    },
-    orderTotal: {
-        fontSize: 16,
-        color: "#333",
-        marginBottom: 5
-    },
-    orderStatus: {
-        fontSize: 16,
-        color: "#333"
-    },
     footerButtons: {
-        flexDirection: "row",
-        justifyContent: "space-around",
+        flexDirection: "column",
+        alignItems: "center",
         marginTop: 20
     },
     deleteButton: {
@@ -354,4 +271,4 @@ const styles = StyleSheet.create({
         color: "#FFF",
         fontSize: 16
     }
-});
+})
