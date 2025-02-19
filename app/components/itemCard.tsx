@@ -74,13 +74,13 @@ const styles = StyleSheet.create({
     card: {
         width: '90%',
         alignSelf: 'center',
-        backgroundColor: '#fff',
+        backgroundColor: '#222', // Fond sombre de la carte
         borderRadius: 10,
         paddingVertical: 15,
         marginVertical: 10,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
+        shadowOpacity: 0.3,
         shadowRadius: 4,
         elevation: 3,
         alignItems: 'center',
@@ -101,29 +101,29 @@ const styles = StyleSheet.create({
     name: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: '#333',
+        color: '#f9f9f9', // Texte clair
         marginBottom: 5,
     },
     category: {
         fontSize: 14,
-        color: '#888',
+        color: '#bbb', // Texte légèrement atténué
         marginBottom: 6,
     },
     description: {
         fontSize: 14,
-        color: '#666',
+        color: '#ddd', // Texte adouci pour la lecture
         textAlign: 'center',
         marginBottom: 6,
     },
     price: {
         fontSize: 18,
         fontWeight: '600',
-        color: '#000',
+        color: '#fff', // Texte bien visible
         marginBottom: 6,
     },
     allergenes: {
         fontSize: 12,
-        color: '#c00',
+        color: '#ff4444', // Rouge pour attirer l'attention
         textAlign: 'center',
         marginTop: 2,
     },
@@ -132,11 +132,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingVertical: 12,
     },
-    addButtonText: {
-        color: '#fff',
-        fontWeight: 'bold',
-        fontSize: 16,
-    },
 });
+
 
 export default ItemCard;

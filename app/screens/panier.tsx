@@ -118,17 +118,19 @@ export default function Panier(): JSX.Element {
     );
 }
 
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
+        backgroundColor: "#121212",
         paddingTop: 30,
         paddingHorizontal: 15
     },
     title: {
         fontSize: 22,
         fontWeight: "bold",
-        marginBottom: 15
+        marginBottom: 15,
+        color: "#F9F9F9" // Texte clair
     },
     list: {
         marginBottom: 20
@@ -139,9 +141,13 @@ const styles = StyleSheet.create({
         marginBottom: 12,
         padding: 15,
         borderRadius: 6,
-        backgroundColor: "#f9f9f9",
-        elevation: 1,
-        alignItems: "center"
+        backgroundColor: "#333",
+        elevation: 2,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4
     },
     imageContainer: {
         marginRight: 10,
@@ -153,6 +159,10 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         resizeMode: "cover"
     },
+    noImageText: {
+        color: "#777",
+        fontStyle: "italic"
+    },
     infoContainer: {
         flex: 1,
         paddingRight: 10
@@ -161,23 +171,23 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 16,
         marginBottom: 4,
-        color: "#000"
+        color: "#F9F9F9"
     },
     desc: {
         fontStyle: "italic",
-        color: "#555",
+        color: "#aaa",
         marginBottom: 4
     },
     prix: {
         fontWeight: "600",
-        color: "#333"
+        color: "#F9F9F9"
     },
     btnContainer: {
         flexDirection: "row",
         alignItems: "center"
     },
     btn: {
-        backgroundColor: "#e0e0e0",
+        backgroundColor: "#555",
         borderRadius: 4,
         paddingHorizontal: 10,
         paddingVertical: 5,
@@ -185,13 +195,13 @@ const styles = StyleSheet.create({
     },
     btnText: {
         fontSize: 20,
-        color: "#000"
+        color: "#F9F9F9"
     },
     quantite: {
         fontSize: 16,
         minWidth: 20,
         textAlign: "center",
-        color: "#000"
+        color: "#F9F9F9"
     },
     footer: {
         marginTop: 10
@@ -200,10 +210,11 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 18,
         marginBottom: 10,
-        color: "#000"
+        color: "#F9F9F9"
     },
     deliveryText: {
-        marginBottom: 20
+        marginBottom: 20,
+        color: "#bbb"
     },
     orderButton: {
         backgroundColor: "#000",

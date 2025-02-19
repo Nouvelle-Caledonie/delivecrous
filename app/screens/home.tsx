@@ -33,14 +33,15 @@ const HomeScreen: React.FC = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#1a1a1a', // Fond sombre
         padding: 20,
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
         marginVertical: 20,
+        color: '#f9f9f9', // Texte clair
+        textAlign: 'center',
     },
 });
-
 export default HomeScreen;

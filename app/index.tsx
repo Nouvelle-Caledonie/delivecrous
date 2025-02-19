@@ -7,7 +7,6 @@ export default function Index() {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
     const router = useRouter()
 
-    // Au montage du composant, on vérifie si un token existe
     useEffect(() => {
         const checkToken = async () => {
             const token = await AsyncStorage.getItem("userToken")
@@ -16,9 +15,6 @@ export default function Index() {
         checkToken()
     }, [])
 
-    // Dès qu'on a l'information sur l'authentification
-    // Si isAuthenticated est vrai, on redirige vers /screens/home
-    // Sinon, on redirige vers /screens/login
     useEffect(() => {
         if (isAuthenticated === null) return // On attend d'avoir le token
         if (isAuthenticated) {
@@ -28,7 +24,6 @@ export default function Index() {
         }
     }, [isAuthenticated])
 
-    // En attendant la vérification du token, on peut afficher un écran de chargement
     return (
         <View style={styles.loadingContainer}>
             <Text>Chargement...</Text>

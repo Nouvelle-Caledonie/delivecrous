@@ -120,11 +120,11 @@ export default function Profil(): JSX.Element {
                             secureTextEntry
                         />
                         <View style={styles.buttonRow}>
-                            <TouchableOpacity style={styles.primaryButton} onPress={handleUpdateProfile}>
-                                <Text style={styles.buttonText}>Sauvegarder</Text>
-                            </TouchableOpacity>
                             <TouchableOpacity style={styles.secondaryButton} onPress={() => setEditMode(false)}>
                                 <Text style={styles.buttonText}>Annuler</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.primaryButton} onPress={handleUpdateProfile}>
+                                <Text style={styles.buttonText}>Sauvegarder</Text>
                             </TouchableOpacity>
                         </View>
                     </>
@@ -158,48 +158,51 @@ export default function Profil(): JSX.Element {
         </ScrollView>
     )
 }
-
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: "#FCEEEA", padding: 20 },
+    container: {
+        flex: 1,
+        backgroundColor: "#121212",
+        padding: 20,
+    },
     profileContainer: {
-        backgroundColor: "#FFF",
+        backgroundColor: "#1E1E1E",
         borderRadius: 10,
         padding: 20,
-        elevation: 3
+        elevation: 3,
     },
     profileTitle: {
         fontSize: 32,
         fontWeight: "600",
-        color: "#B23A48",
+        color: "#EAEAEA",
         textAlign: "center",
-        marginBottom: 15
+        marginBottom: 15,
     },
     infoText: {
         fontSize: 18,
-        color: "#333",
-        marginBottom: 5
+        color: "#EAEAEA",
+        marginBottom: 5,
     },
     editHint: {
         fontSize: 14,
-        color: "#777",
+        color: "#888",
         textAlign: "center",
-        marginTop: 10
+        marginTop: 10,
     },
     input: {
         width: "100%",
         height: 50,
-        backgroundColor: "#F6F6F6",
+        backgroundColor: "#333333",
         borderRadius: 8,
         paddingHorizontal: 15,
         marginBottom: 15,
         fontSize: 16,
-        color: "#333",
+        color: "#EAEAEA",
         borderWidth: 1,
-        borderColor: "#DDD"
+        borderColor: "#555",
     },
     buttonRow: {
         flexDirection: "row",
-        justifyContent: "space-around"
+        justifyContent: "space-around",
     },
     primaryButton: {
         backgroundColor: "#B23A48",
@@ -208,31 +211,31 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         minWidth: "40%",
         alignItems: "center",
-        marginVertical: 10
+        marginVertical: 10,
     },
     secondaryButton: {
-        backgroundColor: "#777",
+        backgroundColor: "#555",
         paddingVertical: 12,
         paddingHorizontal: 20,
         borderRadius: 8,
         minWidth: "40%",
         alignItems: "center",
-        marginVertical: 10
+        marginVertical: 10,
     },
     buttonText: {
-        color: "#FFF",
+        color: "#EAEAEA",
         fontSize: 16,
-        fontWeight: "bold"
+        fontWeight: "bold",
     },
     divider: {
         height: 1,
-        backgroundColor: "#B23A48",
-        marginVertical: 20
+        backgroundColor: "#333",
+        marginVertical: 20,
     },
     footerButtons: {
         flexDirection: "column",
         alignItems: "center",
-        marginTop: 20
+        marginTop: 20,
     },
     deleteButton: {
         backgroundColor: "#FF3B30",
@@ -241,34 +244,35 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         minWidth: "40%",
         alignItems: "center",
-        marginVertical: 10
+        marginVertical: 10,
     },
     modalBackground: {
         flex: 1,
-        backgroundColor: "rgba(0,0,0,0.3)",
+        backgroundColor: "rgba(0, 0, 0, 0.7)",
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
     },
     modalContainer: {
         width: "80%",
-        backgroundColor: "#FFF",
+        backgroundColor: "#1E1E1E",
         borderRadius: 12,
         paddingVertical: 20,
         paddingHorizontal: 15,
-        alignItems: "center"
+        alignItems: "center",
     },
     modalText: {
         fontSize: 18,
-        marginBottom: 20
+        color: "#EAEAEA",
+        marginBottom: 20,
     },
     closeButton: {
         backgroundColor: "#B23A48",
         borderRadius: 8,
         paddingHorizontal: 15,
-        paddingVertical: 10
+        paddingVertical: 10,
     },
     closeButtonText: {
-        color: "#FFF",
-        fontSize: 16
-    }
-})
+        color: "#EAEAEA",
+        fontSize: 16,
+    },
+});
