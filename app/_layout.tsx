@@ -1,4 +1,4 @@
-import Header from "./components/header";
+import {Header, BottomMenu} from "./components/header";
 import { Slot } from "expo-router";
 import React from "react";
 
@@ -7,6 +7,7 @@ export default function RootLayout() {
       <>
         <Header />
         <Slot />
+          <BottomMenu />
       </>
   );
 }

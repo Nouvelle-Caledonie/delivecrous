@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {View, Text, StyleSheet, FlatList, ScrollView} from 'react-native';
-import Header from '../components/header';
 import ItemCard from '../components/itemCard';
 import { api } from '../services/api';
 

@@ -1,9 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+    View,
+    Text,
+    StyleSheet,
+    TouchableOpacity,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter, usePathname } from 'expo-router';
-import { Svg, G, Path, Circle, Defs, ClipPath, Rect } from 'react-native-svg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Svg, G, Path } from 'react-native-svg';
+
+function useCartCount(refreshDelay = 1000) {
+    const [cartCount, setCartCount] = useState(0);
+
+    useEffect(() => {
+        const fetchCart = async () => {
+            const cart = await AsyncStorage.getItem('userCart');
+            const cartItems = cart ? JSON.parse(cart) : [];
+            // On additionne les quantités
+            setCartCount(cartItems.reduce((acc: number, item: any) => acc + (item.quantite || 1), 0));
+        };
+
+        fetchCart();
+        const interval = setInterval(fetchCart, refreshDelay);
+        return () => clearInterval(interval);
+    }, [refreshDelay]);
+
+    return cartCount;
+}
+
+// ----- Icône du panier avec badge -----
 const CartIcon = ({ itemCount }: { itemCount: number }) => (
     <View style={{ position: 'relative' }}>
         <Svg width="42" height="44" viewBox="0 0 42 44" fill="none">
@@ -19,22 +45,12 @@ const CartIcon = ({ itemCount }: { itemCount: number }) => (
     </View>
 );
 
+// ----- HEADER EN HAUT -----
 const Header = () => {
     const router = useRouter();
     const pathname = usePathname();
-    const [cartItemCount, setCartItemCount] = useState(0);
-
-    useEffect(() => {
-        const fetchCart = async () => {
-            const cart = await AsyncStorage.getItem('userCart');
-            const cartItems = cart ? JSON.parse(cart) : [];
-            setCartItemCount(cartItems.reduce((acc: number, item: any) => acc + item.quantite, 0));
-        };
-
-        fetchCart();
-        const interval = setInterval(fetchCart, 1000); // Met à jour en temps réel
-        return () => clearInterval(interval);
-    }, []);
+    // On utilise le hook pour connaître le nombre d'items
+    const cartItemCount = useCartCount();
 
     const returnBack = () => {
         if (router.canGoBack()) {
@@ -42,7 +58,7 @@ const Header = () => {
         } else {
             router.push('/');
         }
-    }
+    };
 
     const pagesSansRetour = ['/', '/screens/login', '/screens/home', '/screens/validation'];
     const pagesSansPanier = ['/screens/validation'];
@@ -50,24 +66,85 @@ const Header = () => {
     const showCartButton = !pagesSansPanier.includes(pathname);
 
     return (
-        <View style={styles.container}>
+        <View style={styles.headerContainer}>
             {showBackButton && (
-                <TouchableOpacity style={styles.backButton} onPress={() => returnBack()}>
+                <TouchableOpacity style={styles.backButton} onPress={returnBack}>
                     <Ionicons name="arrow-back" size={24} color="#000" />
                 </TouchableOpacity>
             )}
-            <Text style={styles.title}>Delivecrous</Text>
-            {showCartButton && (
-                <TouchableOpacity style={styles.cartButton} onPress={() => router.push('/screens/panier')}>
-                    <CartIcon itemCount={cartItemCount} />
-                </TouchableOpacity>
-            )}
+            <Text style={styles.headerTitle}>Delivecrous</Text>
         </View>
     );
 };
 
+// ----- MENU EN BAS -----
+const BottomMenu = () => {
+    const router = useRouter();
+    const pathname = usePathname();
+    // On réutilise le même hook
+    const cartItemCount = useCartCount();
+
+    // On définit nos onglets
+    type KnownRoutes = '/' | '/screens/restaurants' | '/screens/panier' | '/screens/profil';
+
+    const tabs: { key: string; label: string; icon: string; route: KnownRoutes }[] = [
+        { key: 'home', label: 'Accueil', icon: 'home-outline', route: '/' },
+        { key: 'restos', label: 'Restaurants', icon: 'restaurant-outline', route: '/screens/restaurants' },
+        { key: 'panier', label: 'Panier', icon: 'cart-outline', route: '/screens/panier' },
+        { key: 'profil', label: 'Profil', icon: 'person-outline', route: '/screens/profil' },
+    ];
+
+
+    // Style conditionnel si l’onglet est actif
+    const isActive = (route: string) => pathname === route;
+
+    return (
+        <View style={styles.bottomMenuContainer}>
+            {tabs.map((tab) => (
+                <TouchableOpacity
+                    key={tab.key}
+                    style={styles.menuItem}
+                    onPress={() => router.push(tab.route)}
+                >
+                    {/* Icône Panier avec badge */}
+                    {tab.key === 'panier' ? (
+                        <View style={{ position: 'relative' }}>
+                            <Ionicons
+                                name={tab.icon as any}
+                                size={26}
+                                color={isActive(tab.route) ? '#000' : '#777'}
+                            />
+                            {cartItemCount > 0 && (
+                                <View style={styles.bottomBadge}>
+                                    <Text style={styles.bottomBadgeText}>{cartItemCount}</Text>
+                                </View>
+                            )}
+                        </View>
+                    ) : (
+                        <Ionicons
+                            name={tab.icon as any}
+                            size={26}
+                            color={isActive(tab.route) ? '#000' : '#777'}
+                        />
+                    )}
+                    <Text
+                        style={[
+                            styles.menuItemText,
+                            { color: isActive(tab.route) ? '#000' : '#777' },
+                        ]}
+                    >
+                        {tab.label}
+                    </Text>
+                </TouchableOpacity>
+            ))}
+        </View>
+    );
+};
+
+// ----- STYLES -----
 const styles = StyleSheet.create({
-    container: {
+    // Header
+    headerContainer: {
         width: '100%',
         height: 70,
         backgroundColor: '#FDF7EF',
@@ -75,7 +152,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         position: 'relative',
     },
-    title: {
+    headerTitle: {
         fontSize: 20,
         fontWeight: '200',
         color: '#000',
@@ -84,14 +161,14 @@ const styles = StyleSheet.create({
         position: 'absolute',
         left: 15,
         top: '50%',
-        transform: [{ translateY: '-50%' }],
+        transform: [{ translateY: -12 }],
         zIndex: 10,
     },
     cartButton: {
         position: 'absolute',
         right: 15,
         top: '50%',
-        transform: [{ translateY: '-50%' }],
+        transform: [{ translateY: -12 }],
         zIndex: 10,
     },
     badge: {
@@ -110,6 +187,43 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontWeight: 'bold',
     },
+
+    // Bottom menu
+    bottomMenuContainer: {
+        height: 60,
+        flexDirection: 'row',
+        borderTopWidth: 1,
+        borderTopColor: '#ccc',
+        backgroundColor: '#FDF7EF',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+    },
+    menuItem: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    menuItemText: {
+        fontSize: 12,
+        marginTop: 2,
+    },
+    bottomBadge: {
+        position: 'absolute',
+        right: -8,
+        top: -4,
+        backgroundColor: '#E33620',
+        width: 18,
+        height: 18,
+        borderRadius: 9,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    bottomBadgeText: {
+        color: '#FFF',
+        fontSize: 10,
+        fontWeight: 'bold',
+    },
 });
 
-export default Header;
+// ----- Export -----
+export { Header, BottomMenu };
