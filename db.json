@@ -219,6 +219,22 @@
       "nom": "",
       "prenom": "",
       "favoris": []
+    },
+    {
+      "id": "3dba",
+      "email": "Ff",
+      "password": "cc",
+      "nom": "",
+      "prenom": "",
+      "favoris": []
+    },
+    {
+      "id": "4789",
+      "email": "cc",
+      "password": "cx",
+      "nom": "",
+      "prenom": "",
+      "favoris": []
     }
   ],
   "favoris": [
@@ -282,6 +298,19 @@
       "total": 21,
       "date": "2025-02-12T15:30:00Z",
       "statut": "livrée"
+    },
+    {
+      "id": "7e8a",
+      "userId": "1",
+      "plats": [
+        {
+          "platId": "1",
+          "quantite": 1
+        }
+      ],
+      "total": 8.5,
+      "date": "2025-02-19T09:15:57.289Z",
+      "statut": "en préparation"
     }
   ]
 }
