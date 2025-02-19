@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {router, useRouter} from "expo-router";
+import React, { useEffect, useState } from "react";
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { router, useRouter } from "expo-router";
+import { api } from "../services/api";
 
 interface Plat {
     id: string;
@@ -12,7 +13,7 @@ interface Plat {
     categorie: string;
     disponible: boolean;
     restaurantId: string;
-    image: any; // on stocke directement le require, donc "any"
+    image: any;
     quantite: number;
 }
 
@@ -25,17 +26,13 @@ export default function Panier(): JSX.Element {
     }, []);
 
     const initCart = async () => {
-        try {
-            const storedCart = await AsyncStorage.getItem('userCart');
-            setCart(JSON.parse(storedCart));
-        } catch (error) {
-            console.error('Erreur lors de l’init du panier :', error);
-        }
+        const storedCart = await AsyncStorage.getItem("userCart");
+        setCart(storedCart ? JSON.parse(storedCart) : []);
     };
 
     const saveCart = async (newCart: Plat[]) => {
         setCart(newCart);
-        await AsyncStorage.setItem('userCart', JSON.stringify(newCart));
+        await AsyncStorage.setItem("userCart", JSON.stringify(newCart));
     };
 
     const incrementItem = (id: string) => {
@@ -54,10 +51,25 @@ export default function Panier(): JSX.Element {
         saveCart(updated);
     };
 
-    // Exemple d'action pour passer la commande
-    const handlePasserCommande = () => {
-        // envoyer vers validation.tsx après avoir validé la commande
-        router.push('/screens/validation');
+    const calcTotal = (): number => {
+        return cart.reduce((acc, item) => acc + item.prix * item.quantite, 0);
+    };
+
+    const handlePasserCommande = async () => {
+        try {
+            const newCommande = {
+                userId: "1",
+                plats: cart.map((item) => ({ platId: item.id, quantite: item.quantite })),
+                total: calcTotal(),
+                date: new Date().toISOString(),
+                statut: "en préparation"
+            };
+            await api.createCommande(newCommande);
+            await AsyncStorage.removeItem("userCart");
+            router.push({ pathname: "/screens/validation", params: { total: calcTotal() } });
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     const renderItem = ({ item }: { item: Plat }) => (
@@ -86,10 +98,6 @@ export default function Panier(): JSX.Element {
         </View>
     );
 
-    const calcTotal = (): number => {
-        return cart.reduce((acc, item) => acc + item.prix * item.quantite, 0);
-    };
-
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Ton panier</Text>
@@ -113,99 +121,99 @@ export default function Panier(): JSX.Element {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: "#fff",
         paddingTop: 30,
-        paddingHorizontal: 15,
+        paddingHorizontal: 15
     },
     title: {
         fontSize: 22,
-        fontWeight: 'bold',
-        marginBottom: 15,
+        fontWeight: "bold",
+        marginBottom: 15
     },
     list: {
-        marginBottom: 20,
+        marginBottom: 20
     },
     itemContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        flexDirection: "row",
+        justifyContent: "space-between",
         marginBottom: 12,
         padding: 15,
         borderRadius: 6,
-        backgroundColor: '#f9f9f9',
+        backgroundColor: "#f9f9f9",
         elevation: 1,
-        alignItems: 'center',
+        alignItems: "center"
     },
     imageContainer: {
         marginRight: 10,
-        justifyContent: 'center',
+        justifyContent: "center"
     },
     image: {
         width: 70,
         height: 70,
         borderRadius: 6,
-        resizeMode: 'cover',
+        resizeMode: "cover"
     },
     infoContainer: {
         flex: 1,
-        paddingRight: 10,
+        paddingRight: 10
     },
     nom: {
-        fontWeight: 'bold',
+        fontWeight: "bold",
         fontSize: 16,
         marginBottom: 4,
-        color: '#000',
+        color: "#000"
     },
     desc: {
-        fontStyle: 'italic',
-        color: '#555',
-        marginBottom: 4,
+        fontStyle: "italic",
+        color: "#555",
+        marginBottom: 4
     },
     prix: {
-        fontWeight: '600',
-        color: '#333',
+        fontWeight: "600",
+        color: "#333"
     },
     btnContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
+        flexDirection: "row",
+        alignItems: "center"
     },
     btn: {
-        backgroundColor: '#e0e0e0',
+        backgroundColor: "#e0e0e0",
         borderRadius: 4,
         paddingHorizontal: 10,
         paddingVertical: 5,
-        marginHorizontal: 5,
+        marginHorizontal: 5
     },
     btnText: {
         fontSize: 20,
-        color: '#000',
+        color: "#000"
     },
     quantite: {
         fontSize: 16,
         minWidth: 20,
-        textAlign: 'center',
-        color: '#000',
+        textAlign: "center",
+        color: "#000"
     },
     footer: {
-        marginTop: 10,
+        marginTop: 10
     },
     totalText: {
-        fontWeight: 'bold',
+        fontWeight: "bold",
         fontSize: 18,
         marginBottom: 10,
-        color: '#000',
+        color: "#000"
     },
     deliveryText: {
-        marginBottom: 20,
+        marginBottom: 20
     },
     orderButton: {
-        backgroundColor: '#000',
+        backgroundColor: "#000",
         paddingVertical: 12,
         borderRadius: 6,
-        alignItems: 'center',
+        alignItems: "center"
     },
     orderButtonText: {
-        color: '#fff',
-        fontWeight: 'bold',
-        fontSize: 16,
-    },
+        color: "#fff",
+        fontWeight: "bold",
+        fontSize: 16
+    }
 });
