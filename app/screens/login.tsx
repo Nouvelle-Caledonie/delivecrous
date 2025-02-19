@@ -40,7 +40,7 @@ export default function AuthScreen() {
             const response = await api.login(email, password)
             storeUserToken(response.token)
         } catch (err: any) {
-            setModalMessage(err.message || "Identifiants invalides")
+            setModalMessage("Mot de passe ou e-mail inconnu")
             setModalColor("#B23A48")
             setModalVisible(true)
         }
