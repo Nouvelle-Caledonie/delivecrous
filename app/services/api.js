@@ -1,6 +1,7 @@
 import axios from "axios"
 
 const BASE_URL = "http://localhost:3000"
+const GEOCODING_API_URL = "https://nominatim.openstreetmap.org/search";
 
 export const api = {
     login: async (email, password) => {
@@ -55,14 +56,46 @@ export const api = {
             return { action: "added", favorite: addResponse.data }
         }
     },
-    getRestaurants: async () => {
-        const response = await axios.get(`${BASE_URL}/restaurants`)
-        return response.data
+    getRestaurants: async (ville = "") => {
+        try {
+            const url = ville ? `${BASE_URL}/restaurants?adresse_like=${ville}` : `${BASE_URL}/restaurants`;
+            const response = await axios.get(url);
+            return response.data;
+        } catch (error) {
+            throw new Error("Erreur lors de la récupération des restaurants");
+        }
     },
+
     getRestaurant: async (restaurantId) => {
         const response = await axios.get(`${BASE_URL}/restaurants/${restaurantId}`)
         return response.data
     },
+
+    getCoordinatesFromAddress: async (address) => {
+        try {
+            const response = await axios.get(GEOCODING_API_URL, {
+                params: {
+                    q: address,
+                    format: "json",
+                    limit: 1
+                }
+            });
+
+            if (response.data.length > 0) {
+                return {
+                    latitude: parseFloat(response.data[0].lat),
+                    longitude: parseFloat(response.data[0].lon)
+                };
+            } else {
+                console.warn(`⚠️ Impossible de géocoder l'adresse: ${address}`);
+                return null;
+            }
+        } catch (error) {
+            console.error("❌ Erreur lors du géocodage:", error);
+            return null;
+        }
+    },
+
     getPlats: async () => {
         const response = await axios.get(`${BASE_URL}/plats`)
         return response.data
