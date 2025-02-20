@@ -1,102 +1,116 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { router, useRouter } from "expo-router";
-import { api } from "../services/api";
+import React, { useEffect, useState } from "react"
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image } from "react-native"
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import { useRouter } from "expo-router"
+import axios from "axios"
+import { api } from "../services/api"
+
+const BASE_URL = "http://localhost:3000"
 
 interface Plat {
-    id: string;
-    nom: string;
-    description: string;
-    prix: number;
-    allergenes: string[];
-    categorie: string;
-    disponible: boolean;
-    restaurantId: string;
-    image: any;
-    quantite: number;
+    id: string
+    nom: string
+    description: string
+    prix: number
+    allergenes: string[]
+    categorie: string
+    disponible: boolean
+    restaurantId: string
+    image: any
+    quantite: number
 }
 
 export default function Panier(): JSX.Element {
-    const [cart, setCart] = useState<Plat[]>([]);
-    const router = useRouter();
+    const [cart, setCart] = useState<Plat[]>([])
+    const [userId, setUserId] = useState("")
+    const router = useRouter()
 
     useEffect(() => {
-        initCart();
-    }, []);
+        initCart()
+        getUserId()
+    }, [])
 
-    const initCart = async () => {
-        const storedCart = await AsyncStorage.getItem("userCart");
-        setCart(storedCart ? JSON.parse(storedCart) : []);
-    };
+    async function initCart() {
+        const storedCart = await AsyncStorage.getItem("userCart")
+        setCart(storedCart ? JSON.parse(storedCart) : [])
+    }
 
-    const saveCart = async (newCart: Plat[]) => {
-        setCart(newCart);
-        await AsyncStorage.setItem("userCart", JSON.stringify(newCart));
-    };
+    async function getUserId() {
+        const storedEmail = await AsyncStorage.getItem("User")
+        if (storedEmail) {
+            try {
+                const response = await axios.get(`${BASE_URL}/users?email=${storedEmail}`)
+                if (response.data && response.data.length > 0) {
+                    const user = response.data[0]
+                    setUserId(user.id)
+                }
+            } catch {}
+        }
+    }
 
-    const incrementItem = (id: string) => {
-        const updated = cart.map((item) =>
+    async function saveCart(newCart: Plat[]) {
+        setCart(newCart)
+        await AsyncStorage.setItem("userCart", JSON.stringify(newCart))
+    }
+
+    function incrementItem(id: string) {
+        const updated = cart.map(item =>
             item.id === id ? { ...item, quantite: item.quantite + 1 } : item
-        );
-        saveCart(updated);
-    };
+        )
+        saveCart(updated)
+    }
 
-    const decrementItem = (id: string) => {
+    function decrementItem(id: string) {
         const updated = cart
-            .map((item) =>
+            .map(item =>
                 item.id === id ? { ...item, quantite: item.quantite - 1 } : item
             )
-            .filter((p) => p.quantite > 0);
-        saveCart(updated);
-    };
+            .filter(p => p.quantite > 0)
+        saveCart(updated)
+    }
 
-    const calcTotal = (): number => {
-        return cart.reduce((acc, item) => acc + item.prix * item.quantite, 0);
-    };
+    function calcTotal() {
+        return cart.reduce((acc, item) => acc + item.prix * item.quantite, 0)
+    }
 
-    const handlePasserCommande = async () => {
+    async function handlePasserCommande() {
         try {
             const newCommande = {
-                userId: "1",
-                plats: cart.map((item) => ({ platId: item.id, quantite: item.quantite })),
+                userId: userId,
+                plats: cart.map(item => ({ platId: item.id, quantite: item.quantite })),
                 total: calcTotal(),
                 date: new Date().toISOString(),
                 statut: "en préparation"
-            };
-            await api.createCommande(newCommande);
-            await AsyncStorage.removeItem("userCart");
-            router.push({ pathname: "/screens/validation", params: { total: calcTotal() } });
-        } catch (error) {
-            console.error(error);
-        }
-    };
+            }
+            await api.createCommande(newCommande)
+            await AsyncStorage.removeItem("userCart")
+            router.push({ pathname: "/screens/validation", params: { total: calcTotal() } })
+        } catch {}
+    }
 
-    const renderItem = ({ item }: { item: Plat }) => (
-        <View style={styles.itemContainer}>
-            <View style={styles.imageContainer}>
-                {item.image ? (
-                    <Image source={item.image} style={styles.image} />
-                ) : (
-                    <Text>Pas d’image</Text>
-                )}
+    function renderItem({ item }: { item: Plat }) {
+        return (
+            <View style={styles.itemContainer}>
+                <View style={styles.imageContainer}>
+                    {item.image ? <Image source={item.image} style={styles.image} /> : <Text>Pas d’image</Text>}
+                </View>
+                <View style={styles.infoContainer}>
+                    <Text style={styles.nom}>{item.nom}</Text>
+                    <Text style={styles.desc}>{item.description}</Text>
+                    <Text style={styles.prix}>{item.prix} €</Text>
+                </View>
+                <View style={styles.btnContainer}>
+                    <TouchableOpacity onPress={() => decrementItem(item.id)} style={styles.btn}>
+                        <Text style={styles.btnText}>-</Text>
+                    </TouchableOpacity>
+                    <Text style={styles.quantite}>{item.quantite}</Text>
+                    <TouchableOpacity onPress={() => incrementItem(item.id)} style={styles.btn}>
+                        <Text style={styles.btnText}>+</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-            <View style={styles.infoContainer}>
-                <Text style={styles.nom}>{item.nom}</Text>
-                <Text style={styles.desc}>{item.description}</Text>
-                <Text style={styles.prix}>{item.prix} €</Text>
-            </View>
-            <View style={styles.btnContainer}>
-                <TouchableOpacity onPress={() => decrementItem(item.id)} style={styles.btn}>
-                    <Text style={styles.btnText}>-</Text>
-                </TouchableOpacity>
-                <Text style={styles.quantite}>{item.quantite}</Text>
-                <TouchableOpacity onPress={() => incrementItem(item.id)} style={styles.btn}>
-                    <Text style={styles.btnText}>+</Text>
-                </TouchableOpacity>
-            </View>
-        </View>
-    );
+        )
+    }
 
     return (
         <View style={styles.container}>
@@ -109,15 +123,14 @@ export default function Panier(): JSX.Element {
             />
             <View style={styles.footer}>
                 <Text style={styles.totalText}>Total: {calcTotal().toFixed(2)} €</Text>
-                <Text style={styles.deliveryText}>Délai de livraison estimé : ~30 min</Text>
                 <TouchableOpacity onPress={handlePasserCommande} style={styles.orderButton}>
                     <Text style={styles.orderButtonText}>Passer la commande</Text>
                 </TouchableOpacity>
+                <Text style={styles.deliveryText}>Délai de livraison estimé : ~30 min</Text>
             </View>
         </View>
-    );
+    )
 }
-
 
 const styles = StyleSheet.create({
     container: {
@@ -158,10 +171,6 @@ const styles = StyleSheet.create({
         height: 70,
         borderRadius: 6,
         resizeMode: "cover"
-    },
-    noImageText: {
-        color: "#777",
-        fontStyle: "italic"
     },
     infoContainer: {
         flex: 1,
@@ -213,7 +222,7 @@ const styles = StyleSheet.create({
         color: "#F9F9F9"
     },
     deliveryText: {
-        marginBottom: 20,
+        marginTop: 10,
         color: "#bbb"
     },
     orderButton: {
@@ -227,4 +236,4 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 16
     }
-});
+})

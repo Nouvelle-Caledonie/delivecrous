@@ -1,15 +1,16 @@
+// app/screens/validation.tsx
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import Svg, { G, Path, Defs, LinearGradient, Stop, ClipPath, Rect } from "react-native-svg";
 
-export default function SuccessScreen() {
-    const navigation = useNavigation();
-    const route = useRoute();
-    const total = Number(route.params && (route.params as any).total) || 0;
+export default function Validation() {
+    const router = useRouter();
+    const { total } = useLocalSearchParams();
+    const amount = Number(total) || 0;
 
     function goBack() {
-        navigation.goBack();
+        router.back();
     }
 
     return (
@@ -82,8 +83,11 @@ export default function SuccessScreen() {
                     </Defs>
                 </Svg>
                 <Text style={styles.title}>Commande envoyée !</Text>
-                <Text style={styles.subtitle}>Elle vous attendra à la fin de votre cours !</Text>
-                <Text style={styles.subtitle}>Montant de la commande : {total.toFixed(2)} €</Text>
+                <Text style={styles.subtitle}>Elle vous attendra à la fin de ton cours !</Text>
+                <Text style={styles.subtitle}>Montant de la commande : {amount.toFixed(2)} €</Text>
+                <TouchableOpacity onPress={goBack}>
+                    <Text style={styles.subtitle}>Retour</Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -93,20 +97,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#FFF"
-    },
-    header: {
-        flexDirection: "row",
-        alignItems: "center",
-        backgroundColor: "#FBEAD3",
-        paddingHorizontal: 16,
-        paddingVertical: 12
-    },
-    backButton: {
-        marginRight: 16
-    },
-    headerTitle: {
-        fontSize: 18,
-        fontWeight: "600"
     },
     content: {
         flex: 1,

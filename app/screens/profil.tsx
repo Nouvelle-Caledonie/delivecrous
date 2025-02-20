@@ -1,4 +1,3 @@
-// screens/Profil.tsx
 import React, { useState, useEffect } from "react"
 import {
     View,
@@ -27,10 +26,17 @@ export default function Profil(): JSX.Element {
     const [modalVisible, setModalVisible] = useState(false)
     const [modalMessage, setModalMessage] = useState("")
     const [modalColor, setModalColor] = useState("#333")
+    const [commandes, setCommandes] = useState([])
 
     useEffect(() => {
         loadUser()
     }, [])
+
+    useEffect(() => {
+        if (userId) {
+            fetchUserCommandes()
+        }
+    }, [userId])
 
     const loadUser = async () => {
         const storedEmail = await AsyncStorage.getItem("User")
@@ -43,8 +49,15 @@ export default function Profil(): JSX.Element {
                     setUserId(user.id)
                     setPassword(user.password || "")
                 }
-            } catch (error) {}
+            } catch {}
         }
+    }
+
+    const fetchUserCommandes = async () => {
+        try {
+            const data = await api.getCommandesByUser(userId)
+            setCommandes(data)
+        } catch {}
     }
 
     const handleUpdateProfile = async () => {
@@ -61,7 +74,7 @@ export default function Profil(): JSX.Element {
             setModalColor("#4BB543")
             setModalVisible(true)
             setEditMode(false)
-        } catch (error) {
+        } catch {
             setModalMessage("Erreur lors de la mise à jour")
             setModalColor("#B23A48")
             setModalVisible(true)
@@ -86,7 +99,7 @@ export default function Profil(): JSX.Element {
                         await AsyncStorage.removeItem("userToken")
                         await AsyncStorage.removeItem("User")
                         router.replace("/screens/login")
-                    } catch (error) {
+                    } catch {
                         setModalMessage("Erreur lors de la suppression du compte")
                         setModalColor("#B23A48")
                         setModalVisible(true)
@@ -96,9 +109,23 @@ export default function Profil(): JSX.Element {
         ])
     }
 
+    function formatDate(dateString: string) {
+        const d = new Date(dateString)
+        const day = d.getDate().toString().padStart(2, "0")
+        const month = (d.getMonth() + 1).toString().padStart(2, "0")
+        const year = d.getFullYear()
+        const hours = d.getHours().toString().padStart(2, "0")
+        const minutes = d.getMinutes().toString().padStart(2, "0")
+        return `${day}/${month}/${year} à ${hours}h${minutes}`
+    }
+
     return (
         <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 30 }}>
-            <TouchableOpacity onLongPress={() => setEditMode(true)} activeOpacity={0.8} style={styles.profileContainer}>
+            <TouchableOpacity
+                onLongPress={() => setEditMode(true)}
+                activeOpacity={0.8}
+                style={styles.profileContainer}
+            >
                 <Text style={styles.profileTitle}>Mon Profil</Text>
                 {editMode ? (
                     <>
@@ -120,10 +147,16 @@ export default function Profil(): JSX.Element {
                             secureTextEntry
                         />
                         <View style={styles.buttonRow}>
-                            <TouchableOpacity style={styles.secondaryButton} onPress={() => setEditMode(false)}>
+                            <TouchableOpacity
+                                style={styles.secondaryButton}
+                                onPress={() => setEditMode(false)}
+                            >
                                 <Text style={styles.buttonText}>Annuler</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.primaryButton} onPress={handleUpdateProfile}>
+                            <TouchableOpacity
+                                style={styles.primaryButton}
+                                onPress={handleUpdateProfile}
+                            >
                                 <Text style={styles.buttonText}>Sauvegarder</Text>
                             </TouchableOpacity>
                         </View>
@@ -145,11 +178,35 @@ export default function Profil(): JSX.Element {
                     <Text style={styles.buttonText}>Supprimer mon compte</Text>
                 </TouchableOpacity>
             </View>
+            <View style={styles.divider} />
+            <Text style={styles.profileTitle}>Mes Commandes</Text>
+            {commandes.length === 0 ? (
+                <Text style={styles.infoText}>Aucune commande pour le moment.</Text>
+            ) : (
+                commandes.map((commande) => (
+                    <View key={commande.id} style={styles.commandCard}>
+                        <Text style={styles.infoText}>Commande: {commande.id}</Text>
+                        <Text style={styles.infoText}>
+                            Date: {formatDate(commande.date)}
+                        </Text>
+                        <Text style={styles.infoText}>Statut: {commande.statut}</Text>
+                        <Text style={styles.infoText}>Total: {commande.total} €</Text>
+                        {commande.plats.map((p, i) => (
+                            <Text key={i} style={styles.infoText}>
+                                Plat: {p.platId}, Quantité: {p.quantite}
+                            </Text>
+                        ))}
+                    </View>
+                ))
+            )}
             <Modal visible={modalVisible} transparent animationType="fade">
                 <View style={styles.modalBackground}>
                     <View style={styles.modalContainer}>
                         <Text style={[styles.modalText, { color: modalColor }]}>{modalMessage}</Text>
-                        <Pressable style={styles.closeButton} onPress={() => setModalVisible(false)}>
+                        <Pressable
+                            style={styles.closeButton}
+                            onPress={() => setModalVisible(false)}
+                        >
                             <Text style={styles.closeButtonText}>Fermer</Text>
                         </Pressable>
                     </View>
@@ -158,35 +215,36 @@ export default function Profil(): JSX.Element {
         </ScrollView>
     )
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#121212",
-        padding: 20,
+        padding: 20
     },
     profileContainer: {
         backgroundColor: "#1E1E1E",
         borderRadius: 10,
         padding: 20,
-        elevation: 3,
+        elevation: 3
     },
     profileTitle: {
         fontSize: 32,
         fontWeight: "600",
         color: "#EAEAEA",
         textAlign: "center",
-        marginBottom: 15,
+        marginBottom: 15
     },
     infoText: {
         fontSize: 18,
         color: "#EAEAEA",
-        marginBottom: 5,
+        marginBottom: 5
     },
     editHint: {
         fontSize: 14,
         color: "#888",
         textAlign: "center",
-        marginTop: 10,
+        marginTop: 10
     },
     input: {
         width: "100%",
@@ -198,11 +256,11 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: "#EAEAEA",
         borderWidth: 1,
-        borderColor: "#555",
+        borderColor: "#555"
     },
     buttonRow: {
         flexDirection: "row",
-        justifyContent: "space-around",
+        justifyContent: "space-around"
     },
     primaryButton: {
         backgroundColor: "#B23A48",
@@ -211,7 +269,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         minWidth: "40%",
         alignItems: "center",
-        marginVertical: 10,
+        marginVertical: 10
     },
     secondaryButton: {
         backgroundColor: "#555",
@@ -220,22 +278,22 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         minWidth: "40%",
         alignItems: "center",
-        marginVertical: 10,
+        marginVertical: 10
     },
     buttonText: {
         color: "#EAEAEA",
         fontSize: 16,
-        fontWeight: "bold",
+        fontWeight: "bold"
     },
     divider: {
         height: 1,
         backgroundColor: "#333",
-        marginVertical: 20,
+        marginVertical: 20
     },
     footerButtons: {
         flexDirection: "column",
         alignItems: "center",
-        marginTop: 20,
+        marginTop: 20
     },
     deleteButton: {
         backgroundColor: "#FF3B30",
@@ -244,13 +302,13 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         minWidth: "40%",
         alignItems: "center",
-        marginVertical: 10,
+        marginVertical: 10
     },
     modalBackground: {
         flex: 1,
         backgroundColor: "rgba(0, 0, 0, 0.7)",
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "center"
     },
     modalContainer: {
         width: "80%",
@@ -258,21 +316,27 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         paddingVertical: 20,
         paddingHorizontal: 15,
-        alignItems: "center",
+        alignItems: "center"
     },
     modalText: {
         fontSize: 18,
         color: "#EAEAEA",
-        marginBottom: 20,
+        marginBottom: 20
     },
     closeButton: {
         backgroundColor: "#B23A48",
         borderRadius: 8,
         paddingHorizontal: 15,
-        paddingVertical: 10,
+        paddingVertical: 10
     },
     closeButtonText: {
         color: "#EAEAEA",
-        fontSize: 16,
+        fontSize: 16
     },
-});
+    commandCard: {
+        backgroundColor: "#1E1E1E",
+        borderRadius: 10,
+        padding: 20,
+        marginVertical: 10
+    }
+})
