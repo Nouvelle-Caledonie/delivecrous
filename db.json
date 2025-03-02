@@ -2,35 +2,113 @@
   "restaurants": [
     {
       "id": "1",
-      "nom": "Le Gourmet",
-      "adresse": "123 Rue de Paris, 75001 Paris",
-      "telephone": "0123456789",
-      "plats": [
-        "1",
-        "2",
-        "3"
-      ]
+      "nom": "RU Diderot",
+      "adresse": "14 Avenue Doyen Louis Weil, 38000 Grenoble",
+      "telephone": "04 76 82 60 00",
+      "typeCuisine": "Cuisine traditionnelle française",
+      "horaires": {
+        "lundi": "11:30 - 13:30",
+        "mardi": "11:30 - 13:30",
+        "mercredi": "11:30 - 13:30",
+        "jeudi": "11:30 - 13:30",
+        "vendredi": "11:30 - 13:30",
+        "samedi": "Fermé",
+        "dimanche": "Fermé"
+      },
+      "description": "Le RU Diderot propose des repas complets et équilibrés, adaptés aux besoins des étudiants.",
+      "noteMoyenne": 4.2,
+      "optionsVegetariennes": true,
+      "prixMoyen": 3.30,
+      "modesPaiement": ["IZLY", "CB"],
+      "plats": ["1", "2", "3"]
     },
     {
       "id": "2",
-      "nom": "Fast & Fresh",
-      "adresse": "45 Avenue de la République, 75011 Paris",
-      "telephone": "0987654321",
-      "plats": [
-        "4",
-        "5"
-      ]
+      "nom": "RU GreEn-ER",
+      "adresse": "21 Avenue des Martyrs, 38000 Grenoble",
+      "telephone": "04 76 82 61 00",
+      "typeCuisine": "Cuisine internationale",
+      "horaires": {
+        "lundi": "11:30 - 13:30",
+        "mardi": "11:30 - 13:30",
+        "mercredi": "11:30 - 13:30",
+        "jeudi": "11:30 - 13:30",
+        "vendredi": "11:30 - 13:30",
+        "samedi": "Fermé",
+        "dimanche": "Fermé"
+      },
+      "description": "Le RU GreEn-ER offre une variété de plats internationaux pour satisfaire tous les palais.",
+      "noteMoyenne": 4.5,
+      "optionsVegetariennes": true,
+      "prixMoyen": 3.30,
+      "modesPaiement": ["IZLY", "CB"],
+      "plats": ["4", "5", "6"]
     },
     {
       "id": "3",
-      "nom": "Douceurs Sucrées",
-      "adresse": "78 Boulevard Saint-Germain, 75005 Paris",
-      "telephone": "0147258369",
-      "plats": [
-        "6",
-        "7",
-        "8"
-      ]
+      "nom": "RU Minatec",
+      "adresse": "3 Parv. Louis Néel, 38000 Grenoble",
+      "telephone": "04 76 82 62 00",
+      "typeCuisine": "Cuisine moderne",
+      "horaires": {
+        "lundi": "11:30 - 13:30",
+        "mardi": "11:30 - 13:30",
+        "mercredi": "11:30 - 13:30",
+        "jeudi": "11:30 - 13:30",
+        "vendredi": "11:30 - 13:30",
+        "samedi": "Fermé",
+        "dimanche": "Fermé"
+      },
+      "description": "Le RU Minatec propose une cuisine moderne avec des options saines et équilibrées.",
+      "noteMoyenne": 4.3,
+      "optionsVegetariennes": true,
+      "prixMoyen": 3.30,
+      "modesPaiement": ["IZLY", "CB"],
+      "plats": ["7", "8", "1"]
+    },
+    {
+      "id": "4",
+      "nom": "RU du Home des Étudiants",
+      "adresse": "5 Rue du 4e Régiment de Génie, 38000 Grenoble",
+      "telephone": "04 76 82 63 00",
+      "typeCuisine": "Cuisine traditionnelle française",
+      "horaires": {
+        "lundi": "11:30 - 13:30",
+        "mardi": "11:30 - 13:30",
+        "mercredi": "11:30 - 13:30",
+        "jeudi": "11:30 - 13:30",
+        "vendredi": "11:30 - 13:30",
+        "samedi": "Fermé",
+        "dimanche": "Fermé"
+      },
+      "description": "Le RU du Home des Étudiants offre des repas traditionnels français dans une ambiance conviviale.",
+      "noteMoyenne": 4.1,
+      "optionsVegetariennes": true,
+      "prixMoyen": 3.30,
+      "modesPaiement": ["IZLY", "CB"],
+      "plats": ["2", "3", "4"]
+    },
+    {
+      "id": "5",
+      "nom": "RU L'Intermède",
+      "adresse": "701 Avenue Centrale, 38400 Saint-Martin-d'Hères",
+      "telephone": "04 76 82 64 00",
+      "typeCuisine": "Cuisine du monde",
+      "horaires": {
+        "lundi": "11:30 - 13:30",
+        "mardi": "11:30 - 13:30",
+        "mercredi": "11:30 - 13:30",
+        "jeudi": "11:30 - 13:30",
+        "vendredi": "11:30 - 13:30",
+        "samedi": "Fermé",
+        "dimanche": "Fermé"
+      },
+      "description": "Le RU L'Intermède propose une cuisine du monde variée pour une pause déjeuner dépaysante.",
+      "noteMoyenne": 4.4,
+      "optionsVegetariennes": true,
+      "prixMoyen": 3.30,
+      "modesPaiement": ["IZLY", "CB"],
+      "plats": ["5", "6", "7"]
     }
   ],
   "plats": [

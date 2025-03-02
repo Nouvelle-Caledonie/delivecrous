@@ -71,7 +71,7 @@ const Header = () => {
         <View style={styles.headerContainer}>
             {showBackButton && (
                 <TouchableOpacity style={styles.backButton} onPress={returnBack}>
-                    <Ionicons name="arrow-back" size={24} color="#000"/>
+                    <Ionicons name="arrow-back" size={24} color="#fff"/>
                 </TouchableOpacity>
             )}
             <Text style={styles.headerTitle}>Delivecrous</Text>

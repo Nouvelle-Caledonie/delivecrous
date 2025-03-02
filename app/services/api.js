@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const BASE_URL = "http://localhost:3000"
-const GEOCODING_API_URL = "https://nominatim.openstreetmap.org/search";
+const GOV_API_URL = "https://api-adresse.data.gouv.fr/search/";
 
 export const api = {
     login: async (email, password) => {
@@ -73,18 +73,22 @@ export const api = {
 
     getCoordinatesFromAddress: async (address) => {
         try {
-            const response = await axios.get(GEOCODING_API_URL, {
+            const response = await axios.get(GOV_API_URL, {
                 params: {
                     q: address,
-                    format: "json",
-                    limit: 1
-                }
+                    limit: 1,
+                },
             });
-
-            if (response.data.length > 0) {
+            if (
+                response.data &&
+                response.data.features &&
+                response.data.features.length > 0
+            ) {
+                const coords = response.data.features[0].geometry.coordinates;
                 return {
-                    latitude: parseFloat(response.data[0].lat),
-                    longitude: parseFloat(response.data[0].lon)
+                    // L'API renvoie [longitude, latitude]
+                    latitude: parseFloat(coords[1]),
+                    longitude: parseFloat(coords[0]),
                 };
             } else {
                 console.warn(`⚠️ Impossible de géocoder l'adresse: ${address}`);

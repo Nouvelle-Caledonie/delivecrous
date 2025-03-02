@@ -12,6 +12,7 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import Slider from '@react-native-community/slider';
 import * as Location from 'expo-location';
+import { useRouter } from 'expo-router';
 import { api } from '../services/api';
 
 // Calcule la distance (en km) entre deux points géographiques
@@ -38,7 +39,9 @@ const isRestaurantOpen = (restaurant: any): boolean => {
     const horaires = restaurant.horaires[currentDay];
     if (!horaires) return false;
 
-    // Format attendu : "10:00 - 21:30"
+    // Si le texte ne contient pas de tiret, on considère que le restaurant est fermé
+    if (!horaires.includes('-')) return false;
+
     const [openTime, closeTime] = horaires.split('-').map(s => s.trim());
     const [openHour, openMinute] = openTime.split(':').map(Number);
     const [closeHour, closeMinute] = closeTime.split(':').map(Number);
@@ -52,6 +55,7 @@ const isRestaurantOpen = (restaurant: any): boolean => {
 };
 
 const HomeScreen: React.FC = () => {
+    const router = useRouter();
     const [restaurants, setRestaurants] = useState<any[]>([]);
     const [filteredRestaurants, setFilteredRestaurants] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
@@ -114,14 +118,12 @@ const HomeScreen: React.FC = () => {
 
             const promises = restaurants.map((restaurant, index) =>
                 new Promise(async (resolve) => {
-                    // Délai pour simuler l'affichage progressif
                     await new Promise(res => setTimeout(res, index * 100));
                     if (!isActive) return resolve(null);
 
                     let enriched = restaurant;
                     // Filtre de localisation
                     if (userLocation) {
-                        // Vérification dans le cache en utilisant restaurant.id comme clé
                         if (!restaurant.latitude || !restaurant.longitude) {
                             const cached = coordinatesCache.current[restaurant.id];
                             if (cached) {
@@ -129,7 +131,6 @@ const HomeScreen: React.FC = () => {
                             } else {
                                 const coords = await api.getCoordinatesFromAddress(restaurant.adresse);
                                 if (coords) {
-                                    // Stocker dans le cache
                                     coordinatesCache.current[restaurant.id] = coords;
                                     enriched = { ...restaurant, latitude: coords.latitude, longitude: coords.longitude };
                                 }
@@ -142,7 +143,6 @@ const HomeScreen: React.FC = () => {
                                 enriched.latitude,
                                 enriched.longitude
                             );
-                            // Si la distance est supérieure au rayon choisi, on n'ajoute pas ce restaurant
                             if (distance > radius) {
                                 return resolve(null);
                             }
@@ -155,7 +155,6 @@ const HomeScreen: React.FC = () => {
                         return resolve(null);
                     }
                     if (isActive) {
-                        // Éviter les doublons en vérifiant via l'ID
                         setFilteredRestaurants(prev => {
                             if (!prev.find((r: any) => r.id === enriched.id)) {
                                 return [...prev, enriched];
@@ -171,7 +170,6 @@ const HomeScreen: React.FC = () => {
                 if (isActive) setIsFiltering(false);
             });
         } else {
-            // Si aucun filtre n'est activé, afficher la liste complète
             setFilteredRestaurants(restaurants);
             setIsFiltering(false);
         }
@@ -206,7 +204,10 @@ const HomeScreen: React.FC = () => {
                 <Icon name="call" size={16} color="#555" /> {item.telephone}
             </Text>
             <Text style={styles.description}>{item.description}</Text>
-            <TouchableOpacity style={styles.orderButton}>
+            <TouchableOpacity
+                style={styles.orderButton}
+                onPress={() => router.push(`/screens/restaurant/${item.id}`)}
+            >
                 <Text style={styles.orderText}>Commander</Text>
             </TouchableOpacity>
         </View>
@@ -224,7 +225,6 @@ const HomeScreen: React.FC = () => {
 
             {filtersVisible && (
                 <View style={styles.filtersContainer}>
-                    {/* Filtre de localisation */}
                     <Text style={styles.filterLabel}>📍 Distance max : {radius} km</Text>
                     <Slider
                         style={styles.slider}
@@ -237,7 +237,6 @@ const HomeScreen: React.FC = () => {
                         maximumTrackTintColor="#ddd"
                         thumbTintColor="#ff6347"
                     />
-                    {/* Filtre "Ouvert actuellement" */}
                     <View style={styles.filterRow}>
                         <Text style={styles.filterLabel}>Ouvert actuellement</Text>
                         <Switch value={openNow} onValueChange={setOpenNow} />
@@ -264,9 +263,7 @@ const HomeScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1,
-        backgroundColor: "#121212",
-        padding: 20 },
+    container: { flex: 1, backgroundColor: "#121212", padding: 20 },
     title: { fontSize: 26, fontWeight: 'bold', textAlign: 'center', marginBottom: 20, color: '#f9f9f9' },
     filterButton: {
         flexDirection: 'row',
@@ -278,26 +275,13 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     filterButtonLabel: { color: '#fff', fontWeight: 'bold', marginLeft: 5 },
-    filtersContainer: {
-        marginBottom: 20,
-        backgroundColor: '#2a2a2a',
-        padding: 10,
-        borderRadius: 5
-    },
+    filtersContainer: { marginBottom: 20, backgroundColor: '#2a2a2a', padding: 10, borderRadius: 5 },
     filterRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 10 },
     filterLabel: { fontSize: 16, fontWeight: 'bold', color: '#f9f9f9' },
     slider: { width: 250, alignSelf: 'center', marginTop: 5 },
     loader: { marginTop: 20 },
     list: { paddingBottom: 20 },
-    card: {
-        backgroundColor: '#252525',
-        borderRadius: 8,
-        padding: 15,
-        marginBottom: 15,
-        shadowColor: '#000',
-        shadowOpacity: 0.3,
-        shadowRadius: 5
-    },
+    card: { backgroundColor: '#252525', borderRadius: 8, padding: 15, marginBottom: 15 },
     cardHeader: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 },
     restaurantName: { fontSize: 18, fontWeight: 'bold', color: '#f9f9f9' },
     ratingContainer: { flexDirection: 'row', alignItems: 'center' },
