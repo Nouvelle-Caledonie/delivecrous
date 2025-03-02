@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react";
 import {
     View,
     Text,
@@ -9,83 +9,93 @@ import {
     Modal,
     Pressable,
     ScrollView
-} from "react-native"
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import { useRouter } from "expo-router"
-import axios from "axios"
-import { api } from "../services/api"
+} from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
+import axios from "axios";
+import { api } from "../services/api";
 
-const BASE_URL = "http://localhost:3000"
+const BASE_URL = "http://localhost:3000";
 
 export default function Profil(): JSX.Element {
-    const router = useRouter()
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [userId, setUserId] = useState("")
-    const [editMode, setEditMode] = useState(false)
-    const [modalVisible, setModalVisible] = useState(false)
-    const [modalMessage, setModalMessage] = useState("")
-    const [modalColor, setModalColor] = useState("#333")
-    const [commandes, setCommandes] = useState([])
+    const router = useRouter();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [nom, setNom] = useState("");
+    const [prenom, setPrenom] = useState("");
+    const [formation, setFormation] = useState("");
+    const [userId, setUserId] = useState("");
+    const [editMode, setEditMode] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalMessage, setModalMessage] = useState("");
+    const [modalColor, setModalColor] = useState("#333");
+    const [commandes, setCommandes] = useState<any[]>([]);
 
     useEffect(() => {
-        loadUser()
-    }, [])
+        loadUser();
+    }, []);
 
     useEffect(() => {
         if (userId) {
-            fetchUserCommandes()
+            fetchUserCommandes();
         }
-    }, [userId])
+    }, [userId]);
 
     const loadUser = async () => {
-        const storedEmail = await AsyncStorage.getItem("User")
+        const storedEmail = await AsyncStorage.getItem("User");
         if (storedEmail) {
-            setEmail(storedEmail)
+            setEmail(storedEmail);
             try {
-                const response = await axios.get(`${BASE_URL}/users?email=${storedEmail}`)
+                const response = await axios.get(`${BASE_URL}/users?email=${storedEmail}`);
                 if (response.data && response.data.length > 0) {
-                    const user = response.data[0]
-                    setUserId(user.id)
-                    setPassword(user.password || "")
+                    const user = response.data[0];
+                    setUserId(user.id);
+                    setPassword(user.password || "");
+                    setNom(user.nom || "");
+                    setPrenom(user.prenom || "");
+                    setFormation(user.formation || "");
                 }
-            } catch {}
+            } catch (error) {
+                console.error("Erreur lors du chargement de l'utilisateur", error);
+            }
         }
-    }
+    };
 
     const fetchUserCommandes = async () => {
         try {
-            const data = await api.getCommandesByUser(userId)
-            setCommandes(data)
-        } catch {}
-    }
+            const data = await api.getCommandesByUser(userId);
+            setCommandes(data);
+        } catch (error) {
+            console.error("Erreur lors de la récupération des commandes", error);
+        }
+    };
 
     const handleUpdateProfile = async () => {
         if (!email || !password) {
-            setModalMessage("L'email et le mot de passe ne doivent pas être vides")
-            setModalColor("#B23A48")
-            setModalVisible(true)
-            return
+            setModalMessage("L'email et le mot de passe ne doivent pas être vides");
+            setModalColor("#B23A48");
+            setModalVisible(true);
+            return;
         }
         try {
-            const response = await axios.patch(`${BASE_URL}/users/${userId}`, { email, password })
-            await AsyncStorage.setItem("User", response.data.email)
-            setModalMessage("Profil mis à jour")
-            setModalColor("#4BB543")
-            setModalVisible(true)
-            setEditMode(false)
-        } catch {
-            setModalMessage("Erreur lors de la mise à jour")
-            setModalColor("#B23A48")
-            setModalVisible(true)
+            const response = await axios.patch(`${BASE_URL}/users/${userId}`, { email, password, nom, prenom, formation });
+            await AsyncStorage.setItem("User", response.data.email);
+            setModalMessage("Profil mis à jour");
+            setModalColor("#4BB543");
+            setModalVisible(true);
+            setEditMode(false);
+        } catch (error) {
+            setModalMessage("Erreur lors de la mise à jour");
+            setModalColor("#B23A48");
+            setModalVisible(true);
         }
-    }
+    };
 
     const handleLogout = async () => {
-        await AsyncStorage.removeItem("userToken")
-        await AsyncStorage.removeItem("User")
-        router.replace("/screens/login")
-    }
+        await AsyncStorage.removeItem("userToken");
+        await AsyncStorage.removeItem("User");
+        router.replace("/screens/login");
+    };
 
     const handleDeleteAccount = async () => {
         Alert.alert("Confirmation", "Voulez-vous vraiment supprimer votre compte ?", [
@@ -95,28 +105,28 @@ export default function Profil(): JSX.Element {
                 style: "destructive",
                 onPress: async () => {
                     try {
-                        await axios.delete(`${BASE_URL}/users/${userId}`)
-                        await AsyncStorage.removeItem("userToken")
-                        await AsyncStorage.removeItem("User")
-                        router.replace("/screens/login")
-                    } catch {
-                        setModalMessage("Erreur lors de la suppression du compte")
-                        setModalColor("#B23A48")
-                        setModalVisible(true)
+                        await axios.delete(`${BASE_URL}/users/${userId}`);
+                        await AsyncStorage.removeItem("userToken");
+                        await AsyncStorage.removeItem("User");
+                        router.replace("/screens/login");
+                    } catch (error) {
+                        setModalMessage("Erreur lors de la suppression du compte");
+                        setModalColor("#B23A48");
+                        setModalVisible(true);
                     }
                 }
             }
-        ])
-    }
+        ]);
+    };
 
     function formatDate(dateString: string) {
-        const d = new Date(dateString)
-        const day = d.getDate().toString().padStart(2, "0")
-        const month = (d.getMonth() + 1).toString().padStart(2, "0")
-        const year = d.getFullYear()
-        const hours = d.getHours().toString().padStart(2, "0")
-        const minutes = d.getMinutes().toString().padStart(2, "0")
-        return `${day}/${month}/${year} à ${hours}h${minutes}`
+        const d = new Date(dateString);
+        const day = d.getDate().toString().padStart(2, "0");
+        const month = (d.getMonth() + 1).toString().padStart(2, "0");
+        const year = d.getFullYear();
+        const hours = d.getHours().toString().padStart(2, "0");
+        const minutes = d.getMinutes().toString().padStart(2, "0");
+        return `${day}/${month}/${year} à ${hours}h${minutes}`;
     }
 
     return (
@@ -146,6 +156,27 @@ export default function Profil(): JSX.Element {
                             placeholderTextColor="#999"
                             secureTextEntry
                         />
+                        <TextInput
+                            style={styles.input}
+                            value={nom}
+                            onChangeText={setNom}
+                            placeholder="Nom"
+                            placeholderTextColor="#999"
+                        />
+                        <TextInput
+                            style={styles.input}
+                            value={prenom}
+                            onChangeText={setPrenom}
+                            placeholder="Prénom"
+                            placeholderTextColor="#999"
+                        />
+                        <TextInput
+                            style={styles.input}
+                            value={formation}
+                            onChangeText={setFormation}
+                            placeholder="Formation"
+                            placeholderTextColor="#999"
+                        />
                         <View style={styles.buttonRow}>
                             <TouchableOpacity
                                 style={styles.secondaryButton}
@@ -165,6 +196,9 @@ export default function Profil(): JSX.Element {
                     <>
                         <Text style={styles.infoText}>Email : {email}</Text>
                         <Text style={styles.infoText}>Mot de passe : ******</Text>
+                        <Text style={styles.infoText}>Nom : {nom || "-"}</Text>
+                        <Text style={styles.infoText}>Prénom : {prenom || "-"}</Text>
+                        <Text style={styles.infoText}>Formation : {formation || "-"}</Text>
                         <Text style={styles.editHint}>(Appuyez longuement pour modifier)</Text>
                     </>
                 )}
@@ -185,15 +219,19 @@ export default function Profil(): JSX.Element {
             ) : (
                 commandes.map((commande) => (
                     <View key={commande.id} style={styles.commandCard}>
-                        <Text style={styles.infoText}>Commande: {commande.id}</Text>
-                        <Text style={styles.infoText}>
-                            Date: {formatDate(commande.date)}
-                        </Text>
-                        <Text style={styles.infoText}>Statut: {commande.statut}</Text>
-                        <Text style={styles.infoText}>Total: {commande.total} €</Text>
+                        <Text style={styles.commandTitle}>Commande {commande.id}</Text>
+                        <Text style={styles.commandInfo}>Date : {formatDate(commande.date)}</Text>
+                        <Text style={styles.commandInfo}>Statut : {commande.statut}</Text>
+                        <Text style={styles.commandInfo}>Total : {commande.total} €</Text>
+                        {commande.formation && (
+                            <Text style={styles.commandInfo}>Formation : {commande.formation}</Text>
+                        )}
+                        {commande.salle && (
+                            <Text style={styles.commandInfo}>Salle : {commande.salle}</Text>
+                        )}
                         {commande.plats.map((p, i) => (
-                            <Text key={i} style={styles.infoText}>
-                                Plat: {p.platId}, Quantité: {p.quantite}
+                            <Text key={i} style={styles.commandInfo}>
+                                Plat : {p.platId}, Quantité : {p.quantite}
                             </Text>
                         ))}
                     </View>
@@ -213,7 +251,7 @@ export default function Profil(): JSX.Element {
                 </View>
             </Modal>
         </ScrollView>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -320,7 +358,6 @@ const styles = StyleSheet.create({
     },
     modalText: {
         fontSize: 18,
-        color: "#EAEAEA",
         marginBottom: 20
     },
     closeButton: {
@@ -337,6 +374,41 @@ const styles = StyleSheet.create({
         backgroundColor: "#1E1E1E",
         borderRadius: 10,
         padding: 20,
-        marginVertical: 10
+        marginVertical: 10,
+        elevation: 3
+    },
+    commandTitle: {
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "#EAEAEA",
+        marginBottom: 8
+    },
+    commandInfo: {
+        fontSize: 16,
+        color: "#EAEAEA",
+        marginBottom: 4
+    },
+    totalText: {
+        fontWeight: "bold",
+        fontSize: 18,
+        marginBottom: 10,
+        color: "#F9F9F9"
+    },
+    deliveryText: {
+        marginTop: 10,
+        color: "#bbb"
+    },
+    orderButton: {
+        backgroundColor: "#000",
+        paddingVertical: 12,
+        borderRadius: 6,
+        alignItems: "center"
+    },
+    orderButtonText: {
+        color: "#fff",
+        fontWeight: "bold",
+        fontSize: 16
     }
-})
+});
+
+export default Profil;

@@ -30,7 +30,8 @@ export const api = {
             password,
             nom: "",
             prenom: "",
-            favoris: []
+            favoris: [],
+            formation: ""
         }
         try {
             const response = await axios.post(`${BASE_URL}/users`, newUser)
