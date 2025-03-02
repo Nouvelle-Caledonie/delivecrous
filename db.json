@@ -18,9 +18,16 @@
       "description": "Le RU Diderot propose des repas complets et équilibrés, adaptés aux besoins des étudiants.",
       "noteMoyenne": 4.2,
       "optionsVegetariennes": true,
-      "prixMoyen": 3.30,
-      "modesPaiement": ["IZLY", "CB"],
-      "plats": ["1", "2", "3"]
+      "prixMoyen": 3.3,
+      "modesPaiement": [
+        "IZLY",
+        "CB"
+      ],
+      "plats": [
+        "1",
+        "2",
+        "3"
+      ]
     },
     {
       "id": "2",
@@ -40,9 +47,16 @@
       "description": "Le RU GreEn-ER offre une variété de plats internationaux pour satisfaire tous les palais.",
       "noteMoyenne": 4.5,
       "optionsVegetariennes": true,
-      "prixMoyen": 3.30,
-      "modesPaiement": ["IZLY", "CB"],
-      "plats": ["4", "5", "6"]
+      "prixMoyen": 3.3,
+      "modesPaiement": [
+        "IZLY",
+        "CB"
+      ],
+      "plats": [
+        "4",
+        "5",
+        "6"
+      ]
     },
     {
       "id": "3",
@@ -62,9 +76,16 @@
       "description": "Le RU Minatec propose une cuisine moderne avec des options saines et équilibrées.",
       "noteMoyenne": 4.3,
       "optionsVegetariennes": true,
-      "prixMoyen": 3.30,
-      "modesPaiement": ["IZLY", "CB"],
-      "plats": ["7", "8", "1"]
+      "prixMoyen": 3.3,
+      "modesPaiement": [
+        "IZLY",
+        "CB"
+      ],
+      "plats": [
+        "7",
+        "8",
+        "1"
+      ]
     },
     {
       "id": "4",
@@ -84,9 +105,16 @@
       "description": "Le RU du Home des Étudiants offre des repas traditionnels français dans une ambiance conviviale.",
       "noteMoyenne": 4.1,
       "optionsVegetariennes": true,
-      "prixMoyen": 3.30,
-      "modesPaiement": ["IZLY", "CB"],
-      "plats": ["2", "3", "4"]
+      "prixMoyen": 3.3,
+      "modesPaiement": [
+        "IZLY",
+        "CB"
+      ],
+      "plats": [
+        "2",
+        "3",
+        "4"
+      ]
     },
     {
       "id": "5",
@@ -106,9 +134,16 @@
       "description": "Le RU L'Intermède propose une cuisine du monde variée pour une pause déjeuner dépaysante.",
       "noteMoyenne": 4.4,
       "optionsVegetariennes": true,
-      "prixMoyen": 3.30,
-      "modesPaiement": ["IZLY", "CB"],
-      "plats": ["5", "6", "7"]
+      "prixMoyen": 3.3,
+      "modesPaiement": [
+        "IZLY",
+        "CB"
+      ],
+      "plats": [
+        "5",
+        "6",
+        "7"
+      ]
     }
   ],
   "plats": [
@@ -229,7 +264,8 @@
         "1",
         "4",
         "6"
-      ]
+      ],
+      "formation": ""
     },
     {
       "id": "2",
@@ -240,7 +276,8 @@
       "favoris": [
         "2",
         "3"
-      ]
+      ],
+      "formation": ""
     },
     {
       "id": "3",
@@ -248,7 +285,8 @@
       "password": "alexpass",
       "nom": "Leclerc",
       "prenom": "Alex",
-      "favoris": []
+      "favoris": [],
+      "formation": ""
     },
     {
       "id": "498c",
@@ -256,7 +294,8 @@
       "password": "frf",
       "nom": "",
       "prenom": "",
-      "favoris": []
+      "favoris": [],
+      "formation": ""
     },
     {
       "id": "1e78",
@@ -264,7 +303,8 @@
       "password": "ede",
       "nom": "",
       "prenom": "",
-      "favoris": []
+      "favoris": [],
+      "formation": ""
     },
     {
       "id": "0461",
@@ -272,7 +312,8 @@
       "password": "dc",
       "nom": "",
       "prenom": "",
-      "favoris": []
+      "favoris": [],
+      "formation": ""
     },
     {
       "id": "e64e",
@@ -280,7 +321,8 @@
       "password": "azertyuiop",
       "nom": "",
       "prenom": "",
-      "favoris": []
+      "favoris": [],
+      "formation": ""
     },
     {
       "id": "fa20",
@@ -288,7 +330,8 @@
       "password": "azertyuiop",
       "nom": "",
       "prenom": "",
-      "favoris": []
+      "favoris": [],
+      "formation": ""
     },
     {
       "id": "43c6",
@@ -296,7 +339,8 @@
       "password": "aze",
       "nom": "",
       "prenom": "",
-      "favoris": []
+      "favoris": [],
+      "formation": ""
     },
     {
       "id": "3dba",
@@ -304,7 +348,8 @@
       "password": "cc",
       "nom": "",
       "prenom": "",
-      "favoris": []
+      "favoris": [],
+      "formation": ""
     },
     {
       "id": "4789",
@@ -312,7 +357,8 @@
       "password": "cx",
       "nom": "",
       "prenom": "",
-      "favoris": []
+      "favoris": [],
+      "formation": ""
     },
     {
       "id": "7f8f",
@@ -320,7 +366,8 @@
       "password": "dedjffdv",
       "nom": "",
       "prenom": "",
-      "favoris": []
+      "favoris": [],
+      "formation": ""
     },
     {
       "id": "c4f7",
@@ -328,7 +375,26 @@
       "password": "dedj",
       "nom": "",
       "prenom": "",
-      "favoris": []
+      "favoris": [],
+      "formation": ""
+    },
+    {
+      "id": "b0b4",
+      "email": "caunegre.joran@gmail.com",
+      "password": "caca",
+      "nom": "",
+      "prenom": "",
+      "favoris": [],
+      "formation": ""
+    },
+    {
+      "id": "9933",
+      "email": "caunegre.jora@gmail.com",
+      "password": "joranzizi",
+      "nom": "test",
+      "prenom": "test",
+      "favoris": [],
+      "formation": "Métiers du multimédia et de l'internet"
     }
   ],
   "favoris": [
@@ -561,6 +627,145 @@
       "total": 8.5,
       "date": "2025-02-20T12:37:17.752Z",
       "statut": "en préparation"
+    },
+    {
+      "id": "dd77",
+      "userId": "",
+      "plats": [
+        {
+          "platId": "1",
+          "quantite": 1
+        },
+        {
+          "platId": "2",
+          "quantite": 1
+        },
+        {
+          "platId": "3"
+        }
+      ],
+      "total": null,
+      "date": "2025-03-02T11:39:23.000Z",
+      "statut": "en préparation"
+    },
+    {
+      "id": "ecdf",
+      "userId": "",
+      "plats": [
+        {
+          "platId": "1",
+          "quantite": 1
+        },
+        {
+          "platId": "2",
+          "quantite": 1
+        }
+      ],
+      "total": 17.5,
+      "date": "2025-03-02T11:40:05.733Z",
+      "statut": "en préparation"
+    },
+    {
+      "id": "4b5a",
+      "userId": "b0b4",
+      "plats": [
+        {
+          "platId": "1"
+        }
+      ],
+      "total": null,
+      "date": "2025-03-02T11:49:06.103Z",
+      "statut": "en préparation"
+    },
+    {
+      "id": "1d5f",
+      "userId": "b0b4",
+      "plats": [
+        {
+          "platId": "1",
+          "quantite": 1
+        },
+        {
+          "platId": "2",
+          "quantite": 2
+        }
+      ],
+      "total": 26.5,
+      "date": "2025-03-02T12:00:34.564Z",
+      "statut": "en préparation"
+    },
+    {
+      "id": "de9c",
+      "userId": "b0b4",
+      "plats": [
+        {
+          "platId": "1",
+          "quantite": 2
+        }
+      ],
+      "total": 17,
+      "date": "2025-03-02T12:00:46.385Z",
+      "statut": "en préparation"
+    },
+    {
+      "id": "b109",
+      "userId": "b0b4",
+      "plats": [
+        {
+          "platId": "1",
+          "quantite": 1
+        }
+      ],
+      "total": 8.5,
+      "date": "2025-03-02T12:02:07.455Z",
+      "statut": "en préparation",
+      "formation": "Métiers du Multimédia et de l'internet",
+      "salle": "135"
+    },
+    {
+      "id": "306b",
+      "userId": "9933",
+      "plats": [
+        {
+          "platId": "1",
+          "quantite": 2
+        }
+      ],
+      "total": 17,
+      "date": "2025-03-02T12:03:38.260Z",
+      "statut": "en préparation",
+      "formation": "Métiers du Multiméda et de l'internet",
+      "salle": "405"
+    },
+    {
+      "id": "f0b4",
+      "userId": "9933",
+      "plats": [
+        {
+          "platId": "1",
+          "quantite": 1
+        }
+      ],
+      "total": 8.5,
+      "date": "2025-03-02T12:16:00.057Z",
+      "statut": "en préparation",
+      "formation": "Métiers du caca et de l'internet",
+      "salle": "135"
+    },
+    {
+      "id": "8ab8",
+      "userId": "9933",
+      "plats": [
+        {
+          "platId": "1",
+          "quantite": 1
+        }
+      ],
+      "total": 8.5,
+      "date": "2025-03-02T12:18:24.182Z",
+      "statut": "en préparation",
+      "formation": "Métiers du multimédia et de l'internet",
+      "salle": "102"
     }
   ]
 }
