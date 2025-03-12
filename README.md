@@ -1,50 +1,49 @@
-# Welcome to your Expo app 👋
+# DeliveCROUS
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Bienvenue dans l’application DeliveCROUS.
 
-## Get started
+## Prérequis
 
-1. Install dependencies
+- **Node.js** et **npm** installés.
+- **Expo CLI** installé (`npm install -g expo-cli`).
+- **json-server** installé (`npm install -g json-server`), ou lancé localement via un script.
 
+## Installation
+
+1. **Cloner** ce dépôt.
+2. **Installer** les dépendances :
    ```bash
    npm install
    ```
-
-2. Start the app
-
+3. **Lancer** l’appli en web :
    ```bash
-    npx expo start
+   expo start
    ```
+   Dans la console Expo, choisis “Run in web browser”.
 
-In the output, you'll find options to open the app in a
+4. **JSON Server** pour l’API :
+   ```bash
+   npx json-server db.json --port 3000
+   ```
+   L’API sera accessible à l’adresse `http://localhost:3000`.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Remarques
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- **Version mobile** : Pour tester sur mobile, il faut une URL accessible publiquement.  
+  On peut utiliser ngrok, mais la version gratuite impose un écran d’avertissement qui bloque les requêtes (voir capture ci-dessous).  
+  Si tu passes par ngrok avec un compte gratuit, tu auras ce message d’erreur au lieu de l’API.  
+  Il faudrait un plan payant ou un autre tunnel pour faire fonctionner l’API en mobile sans blocage.
 
-## Get a fresh project
+- **Capture d’écran de l’erreur avec ngrok** :  
+  [Message d’avertissement ngrok](https://drive.google.com/file/d/1yzjt-Z0Lwl1XmYk8cBY72RIyCnJLSs9a/view?usp=sharing)
 
-When you're ready, run:
+## Scripts utiles
 
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- **Démarrer l’appli** :  
+  ```bash
+  expo start
+  ```
+- **Démarrer l’API** :  
+  ```bash
+  json-server db.json
+  ```
